@@ -1,19 +1,18 @@
-# 源码注释检查
+# Source Comment and Language Audit
 
-检查范围：`src/` 与 `scripts/` 中的 95 个 Python 文件，其中 86 个为实质性模块、9 个为包初始化文件。
+Scope: 95 Python files under `src/` and `scripts/`, including 86 substantive modules and 9 package initializers.
 
-- 86 个实质性模块的文件头均补充了 `Purpose`、`Method`、`Inputs`、`Outputs`、`Paper parameters`、`Shapes and meaning` 六节，说明代码用途、算法步骤、输入输出、论文固定参数及数组维度与含义。没有张量输入的工具模块明确说明文件或表格结构。
-- 文件头与行内注释统一使用英文；中文注释和中文文档字符串均已清零。包初始化文件只保留简短说明。
-- 删除了注释掉的旧代码、历史实验参数备选值、无信息量的步骤说明及装饰性分隔线。注释数由 639 处降至 140 处。
-- 19 处中文文档字符串改为英文说明。保留 `noqa`、类型标记、shebang，以及解释抽样、模型或统计逻辑的英文注释。
-- 清理多余空行和行尾空格。扩展文件头时逐文件比较去除模块文档字符串后的 AST；可执行计算语句没有改变。
-- 删除了未被正式流程引用的历史 `reader_pair_ci.py`；正式读者研究使用按病例聚类的 `reader_study_ci.py`。保留的历史汇总脚本在文件头明确标注其固定相对路径。
-- 原提取脚本的部分中文**运行日志文本**仍保留，以免改变历史脚本的输出行为；它们不是源码注释。
+- All 86 substantive modules have a header with `Purpose`, `Method`, `Inputs`, `Outputs`, `Paper parameters`, and `Shapes and meaning`. These sections describe the module's role, algorithm, data contract, fixed paper settings, and array dimensions. Utilities without tensor inputs describe their file or table structure instead.
+- Headers and inline comments use English throughout. Package initializers retain brief descriptions.
+- Earlier cleanup removed commented-out code, obsolete experimental parameter alternatives, redundant step narration, and decorative separators. The inline-comment count fell from 639 to 140 at that stage. Nineteen Chinese docstrings were rewritten in English. Meaningful sampling, model, and statistical comments, plus shebangs and type markers, were retained.
+- During the header expansion, executable ASTs were compared after removing module docstrings; those edits did not change computations. The subsequent language pass translated runtime messages, exceptions, progress labels, and CLI help while preserving algorithmic code and data keys.
+- An unreferenced historical `reader_pair_ci.py` was removed. The formal reader-study analysis uses case-clustered `reader_study_ci.py`. The retained historical summary script identifies its fixed relative path in the header.
+- All readable archive text, including the extraction scripts and release documentation, is now free of Chinese characters. A release test checks this property.
 
-`tests/test_release_contents.py` 已加入文件头结构和注释一致性检查。验证命令：
+Verification command:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s tests -v
 ```
 
-当前 15 项测试通过，且 86 个实质性模块的文件头均为 27–34 行。
+The 86 substantive module headers are 27-34 lines long. The archive contains no experimental outputs.

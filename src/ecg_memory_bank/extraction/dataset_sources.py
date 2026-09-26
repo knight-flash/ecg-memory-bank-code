@@ -51,17 +51,17 @@ class HEEDBDataset_train(Dataset):
         self.fs = 500.0
         self.leads = ['I', 'II', 'III', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'aVF', 'aVL', 'aVR']
 
-        print(f"正在从 {indexed_csv_path} 加载数据...")
+        print(f"Loading data from {indexed_csv_path}...")
         try:
             self.data = pd.read_csv(indexed_csv_path)
             self.data = self.data.dropna(subset=['deid_t_diagnosis_original', 'full_ecg_path', 'labels_current'])
         except FileNotFoundError:
-            print(f"[错误] 索引文件未找到: {indexed_csv_path}")
-            print("请确保已运行数据预处理流水线脚本以生成该文件。")
+            print(f"[ERROR] Index file not found: {indexed_csv_path}")
+            print("Run the data preprocessing pipeline to generate this file.")
             raise
 
         if debug_limit is not None:
-            print(f"[DEBUG 模式] 数据集被限制为前 {debug_limit} 个样本。")
+            print(f"[DEBUG] Dataset limited to the first {debug_limit} samples.")
             self.data = self.data.head(debug_limit)
 
     def __len__(self):
@@ -150,17 +150,17 @@ class MIMIC_Feature_Dataset(Dataset):
         self.window_size = 5000
         self.leads = ['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6']
 
-        print(f"正在从索引文件加载元数据: {indexed_csv_path}")
+        print(f"Loading metadata from index file: {indexed_csv_path}")
         try:
             self.data = pd.read_csv(indexed_csv_path)
             self.data.dropna(subset=['path', 'final_report'], inplace=True)
-            print(f"元数据加载完毕，共找到 {len(self.data)} 条有效记录。")
+            print(f"Metadata loaded: {len(self.data)} valid records.")
         except FileNotFoundError:
-            print(f"[错误] 索引文件未找到: {indexed_csv_path}")
+            print(f"[ERROR] Index file not found: {indexed_csv_path}")
             raise
 
         if debug_limit is not None:
-            print(f"[调试模式] 数据集被限制为前 {debug_limit} 条记录。")
+            print(f"[DEBUG] Dataset limited to the first {debug_limit} records.")
             self.data = self.data.head(debug_limit)
 
     def __len__(self):
@@ -237,5 +237,5 @@ class MIMIC_Feature_Dataset(Dataset):
             return {'ecg': ecg_tensor, 'txt': report_text}
 
         except Exception as e:
-            print(f"警告: 处理索引 {idx} (文件: {self.data.iloc[idx]['path']}) 时出错: {e}。将尝试下一个样本。")
+            print(f"Warning: failed to process index {idx} (file: {self.data.iloc[idx]['path']}): {e}. Trying the next sample.")
             return self.__getitem__((idx + 1) % len(self))

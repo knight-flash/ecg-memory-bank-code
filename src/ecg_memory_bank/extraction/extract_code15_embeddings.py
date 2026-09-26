@@ -54,7 +54,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 try:
     import utils_builder
 except ImportError as e:
-    print(f"错误：无法导入自定义模块: {e}")
+    print(f"Error: could not import custom modules: {e}")
     sys.exit(1)
 
 from torch.utils.data import Dataset
@@ -70,7 +70,7 @@ class CustomCODE15Dataset(Dataset):
 
         for col in self.label_cols:
             if col not in self.df.columns:
-                print(f"警告: 列 '{col}' 不在 CSV 中！")
+                print(f"Warning: column '{col}' is missing from the CSV.")
 
     def len(self):
         return len(self.df)
@@ -94,7 +94,7 @@ class CustomCODE15Dataset(Dataset):
                     try:
                         record = wfdb.rdrecord(fallback_ecg_path)
                     except Exception as e_second:
-                        raise FileNotFoundError(f"'{ecg_path}' 和 '{fallback_ecg_path}' 均未找到。")
+                        raise FileNotFoundError(f"Neither '{ecg_path}' nor '{fallback_ecg_path}' was found.")
                 else:
                     raise e_first
 
@@ -111,7 +111,7 @@ class CustomCODE15Dataset(Dataset):
                 padding = torch.zeros((12, target_length - current_length), dtype=torch.float32)
                 ecg_tensor = torch.cat([ecg_tensor, padding], dim=1)
         except Exception as e:
-            print(f"读取 ECG 失败 (第 {idx} 行): {e}")
+            print(f"Failed to read ECG at row {idx}: {e}")
             ecg_tensor = torch.zeros((12, 4096), dtype=torch.float32)
 
         labels = []
@@ -130,13 +130,13 @@ class CustomCODE15Dataset(Dataset):
         return ecg_tensor, labels_tensor
 
 def load_pretrained_model(config_path, device):
-    print(f"正在加载预训练提取模型...")
+    print("Loading the pretrained extraction model...")
     config = yaml.load(open(config_path, "r"), Loader=yaml.FullLoader)
     ckpt_path = config['network']['ckpt_path']
 
     model = utils_builder.ECGCLIP(config['network'])
 
-    print(f"正在从 {ckpt_path} 加载权重...")
+    print(f"Loading weights from {ckpt_path}...")
     checkpoint = torch.load(ckpt_path, map_location=device)
 
     if config['network']['model_name'] == 'ECGCLIP':
@@ -148,7 +148,7 @@ def load_pretrained_model(config_path, device):
     model = model.to(device)
     model.eval()
 
-    print(f"预训练模型 (ECGCLIP) 加载成功！")
+    print("Pretrained ECGCLIP model loaded successfully.")
     return model, config
 
 class ProgressManager:
@@ -168,9 +168,9 @@ class ProgressManager:
         try:
             with open(self.progress_file, 'w') as f:
                 json.dump(progress_data, f, indent=2)
-            print(f"✅ 进度保存成功 (已处理批次: {processed_batches})")
+            print(f"Progress saved (processed batches: {processed_batches}).")
         except Exception as e:
-            print(f"❌ 进度保存失败: {e}")
+            print(f"Failed to save progress: {e}")
 
     def load_progress(self):
         if os.path.exists(self.progress_file):
@@ -188,14 +188,14 @@ class ProgressManager:
             'timestamp': datetime.now().isoformat()
         }
         checkpoint_file = os.path.join(self.checkpoint_dir, f'checkpoint_batch_{batch_idx:06d}.pt')
-        print(f"🔄 开始保存检查点 (批次 {batch_idx}) ...")
+        print(f"Saving checkpoint for batch {batch_idx}...")
         start_time = time.time()
         torch.save(checkpoint_data, checkpoint_file)
         save_time = time.time() - start_time
 
         if os.path.exists(checkpoint_file):
             file_size = os.path.getsize(checkpoint_file) / (1024 * 1024)
-            print(f"✅ 检查点保存成功! 耗时: {save_time:.2f}s, 大小: {file_size:.2f}MB")
+            print(f"Checkpoint saved in {save_time:.2f}s ({file_size:.2f} MB).")
         return checkpoint_file
 
     def mark_completed(self):
@@ -212,12 +212,12 @@ def main_single_gpu(args):
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu_id)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"开始使用 ECGCLIP 执行 CODE-15 嵌入向量提取任务")
-    print(f"使用设备: {device}")
+    print("Starting CODE-15 embedding extraction with ECGCLIP.")
+    print(f"Device: {device}")
 
     model, config = load_pretrained_model(args.config_path, device)
 
-    print(f"正在从 {args.main_csv_path} 加载 CODE-15 自定义数据集...")
+    print(f"Loading the CODE-15 dataset from {args.main_csv_path}...")
     dataset = CustomCODE15Dataset(indexed_csv_path=args.main_csv_path)
     data_loader = DataLoader(
         dataset,
@@ -226,7 +226,7 @@ def main_single_gpu(args):
         num_workers=args.num_workers
     )
 
-    print(f"数据集加载完成，数据量: {len(data_loader)} 个批次，共 {len(dataset)} 条记录。")
+    print(f"Dataset loaded: {len(data_loader)} batches and {len(dataset)} records.")
     total_batches = len(data_loader)
 
     progress_manager = ProgressManager(args.output_dir)
@@ -235,19 +235,19 @@ def main_single_gpu(args):
 
     if previous_progress and previous_progress.get('status') == 'processing':
         start_batch = previous_progress.get('processed_batches', 0)
-        print(f"检测到未完成的任务，从批次 {start_batch} 继续处理")
+        print(f"Resuming an incomplete run from batch {start_batch}.")
     elif previous_progress and previous_progress.get('status') == 'completed':
-        print(f"任务已完成，直接进入合并阶段")
+        print("Extraction already complete; proceeding to checkpoint merging.")
 
     if start_batch < total_batches and (not previous_progress or previous_progress.get('status') != 'completed'):
-        print(f"--- 开始分批提取嵌入向量 (从批次 {start_batch})... ---")
+        print(f"--- Extracting embeddings in batches, starting at batch {start_batch} ---")
 
         processed_samples = 0
         batch_buffer_ecg = []
         batch_buffer_labels = []
 
         with torch.no_grad():
-            for batch_idx, (ecg_signals, labels) in enumerate(tqdm(data_loader, desc=f"提取进度", initial=start_batch)):
+            for batch_idx, (ecg_signals, labels) in enumerate(tqdm(data_loader, desc="Extraction progress", initial=start_batch)):
                 if batch_idx < start_batch:
                     continue
 
@@ -282,7 +282,7 @@ def main_single_gpu(args):
                                 torch.cuda.empty_cache()
 
                 except Exception as e:
-                    print(f"处理批次 {batch_idx} 时出错: {e}")
+                    print(f"Error processing batch {batch_idx}: {e}")
                     progress_manager.save_progress(batch_idx, processed_samples, datetime.now().isoformat())
                     continue
 
@@ -296,16 +296,16 @@ def main_single_gpu(args):
             progress_manager.save_checkpoint(total_batches - 1, checkpoint_dict)
 
         progress_manager.mark_completed()
-        print(f"本地处理完成，共计由本进程处理 {processed_samples} 个样本。")
+        print(f"Local processing complete: {processed_samples} samples handled by this process.")
 
-    print(f"--- 开始合并检查点结果... ---")
+    print("--- Merging checkpoint results ---")
     all_ecg_embeddings = []
     all_labels = []
     checkpoint_dir = os.path.join(args.output_dir, 'checkpoints')
 
     if os.path.exists(checkpoint_dir):
         checkpoint_files = sorted([f for f in os.listdir(checkpoint_dir) if f.endswith('.pt')])
-        print(f"找到 {len(checkpoint_files)} 个检查点缓存块, 开始按序加载提取...")
+        print(f"Found {len(checkpoint_files)} checkpoint chunks; loading them in order...")
         for checkpoint_file in checkpoint_files:
             try:
                 checkpoint_data = torch.load(os.path.join(checkpoint_dir, checkpoint_file))
@@ -315,15 +315,15 @@ def main_single_gpu(args):
                 else:
                     all_ecg_embeddings.append(checkpoint_data['ecg_embeddings'])
             except Exception as e:
-                print(f"加载检查点 {checkpoint_file} 失败: {e}")
+                print(f"Failed to load checkpoint {checkpoint_file}: {e}")
 
     if all_ecg_embeddings:
         all_ecg_embeddings = torch.cat(all_ecg_embeddings, dim=0)
-        print(f"合并完成 - Feature Tensor: {all_ecg_embeddings.shape}")
+        print(f"Merge complete - feature tensor: {all_ecg_embeddings.shape}")
 
         if all_labels:
             all_labels = torch.cat(all_labels, dim=0)
-            print(f"合并完成 - Labels Tensor: {all_labels.shape}")
+            print(f"Merge complete - label tensor: {all_labels.shape}")
 
         try:
             ecg_output_path = os.path.join(args.output_dir, 'code15_ecgclip_embeddings.pt')
@@ -332,15 +332,15 @@ def main_single_gpu(args):
             if len(all_labels) > 0:
                 labels_output_path = os.path.join(args.output_dir, 'code15_labels.pt')
                 torch.save(all_labels, labels_output_path)
-                print(f"7类目标标签已保存至: {labels_output_path}")
+                print(f"Seven target labels saved to: {labels_output_path}")
 
-            print(f"特征已保存至: {ecg_output_path}")
+            print(f"Features saved to: {ecg_output_path}")
 
             original_df = pd.read_csv(args.main_csv_path)
             if len(original_df) != all_ecg_embeddings.shape[0]:
-                print(f"⚠️ 警告: 特征数量 ({all_ecg_embeddings.shape[0]}) 与元数据行数 ({len(original_df)}) 不一致！")
+                print(f"Warning: feature count ({all_ecg_embeddings.shape[0]}) differs from metadata row count ({len(original_df)}).")
             else:
-                print("✅ 特征总数与原始 CSV 行数完全一致。")
+                print("Feature count matches the original CSV row count.")
 
             metadata_output_path = os.path.join(args.output_dir, 'metadata_code15_ecgclip.csv')
             original_df.to_csv(metadata_output_path, index=False)
@@ -350,7 +350,7 @@ def main_single_gpu(args):
                 os.remove(os.path.join(args.output_dir, 'progress.json'))
 
         except Exception as e:
-            print(f"保存最终结果时发生错误: {e}")
+            print(f"Error saving final results: {e}")
             return False
 
     return True
@@ -359,7 +359,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_path', type=str,
                         default='__ECG_CONFIG_REQUIRED__',
-                        help='模型配置文件路径')
+                        help='Path to the model configuration file')
     parser.add_argument('--main_csv_path', type=str,
                         default='__ECG_DATA_ROOT_REQUIRED__/feature/code15/code15_indexed_en.csv')
     parser.add_argument('--output_dir', type=str,
@@ -375,6 +375,6 @@ if __name__ == '__main__':
 
     success = main_single_gpu(args)
     if success:
-        print("\n✅ ECGCLIP (CODE-15) 特征提取闭环完成！")
+        print("\nECGCLIP (CODE-15) feature extraction completed.")
     else:
         sys.exit(1)

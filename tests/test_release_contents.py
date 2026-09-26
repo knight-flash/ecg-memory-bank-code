@@ -10,6 +10,15 @@ from pathlib import Path
 
 
 class ReleaseContentsTests(unittest.TestCase):
+    def test_archive_text_has_no_chinese(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        text_suffixes = {".py", ".md", ".csv", ".json", ".yaml", ".yml", ".toml", ".txt"}
+        for path in root.rglob("*"):
+            if not path.is_file() or ".git" in path.relative_to(root).parts:
+                continue
+            if path.suffix.lower() in text_suffixes:
+                self.assertNotRegex(path.read_text(encoding="utf-8"), r"[\u3400-\u9fff]", str(path))
+
     def test_substantive_modules_explain_their_data_contracts(self) -> None:
         root = Path(__file__).resolve().parents[1]
         sections = (

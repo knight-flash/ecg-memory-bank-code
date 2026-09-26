@@ -62,8 +62,8 @@ try:
     from dataset_sources import HEEDBDataset_train
     import utils_builder
 except ImportError as e:
-    print(f"错误：无法导入自定义模块: {e}")
-    print("请确保您的Python环境可以找到相关模块。")
+    print(f"Error: could not import custom modules: {e}")
+    print("Ensure that the required modules are available in the Python environment.")
     sys.exit(1)
 
 def custom_collate_for_test(batch):
@@ -86,14 +86,14 @@ def custom_collate_for_test(batch):
 
 def load_pretrained_model(config_path, local_rank):
     """Load the configured ECGCLIP checkpoint for distributed extraction."""
-    print(f"[Rank {local_rank}] 正在加载预训练模型...")
+    print(f"[Rank {local_rank}] Loading the pretrained model...")
 
     config = yaml.load(open(config_path, "r"), Loader=yaml.FullLoader)
     ckpt_path = config['network']['ckpt_path']
 
     model = utils_builder.ECGCLIP(config['network'])
 
-    print(f"[Rank {local_rank}] 正在从 {ckpt_path} 加载权重...")
+    print(f"[Rank {local_rank}] Loading weights from {ckpt_path}...")
     checkpoint = torch.load(ckpt_path, map_location=f'cuda:{local_rank}')
 
     if config['network']['model_name'] == 'ECGCLIP':
@@ -109,7 +109,7 @@ def load_pretrained_model(config_path, local_rank):
     model = DDP(model, device_ids=[local_rank], output_device=local_rank)
     model.eval()
 
-    print(f"[Rank {local_rank}] 预训练模型加载成功！")
+    print(f"[Rank {local_rank}] Pretrained model loaded successfully.")
     return model, config
 
 class ProgressManager:
@@ -132,17 +132,17 @@ class ProgressManager:
             'status': 'processing'
         }
 
-        print(f"[Rank {self.local_rank}] 📝 保存进度信息:")
-        print(f"[Rank {self.local_rank}]    - 已处理批次: {processed_batches}")
-        print(f"[Rank {self.local_rank}]    - 总样本数: {total_samples}")
-        print(f"[Rank {self.local_rank}]    - 进度文件: {self.progress_file}")
+        print(f"[Rank {self.local_rank}] Saving progress:")
+        print(f"[Rank {self.local_rank}]    - Processed batches: {processed_batches}")
+        print(f"[Rank {self.local_rank}]    - Total samples: {total_samples}")
+        print(f"[Rank {self.local_rank}]    - Progress file: {self.progress_file}")
 
         try:
             with open(self.progress_file, 'w') as f:
                 json.dump(progress_data, f, indent=2)
-            print(f"[Rank {self.local_rank}] ✅ 进度保存成功")
+            print(f"[Rank {self.local_rank}] Progress saved successfully.")
         except Exception as e:
-            print(f"[Rank {self.local_rank}] ❌ 进度保存失败: {e}")
+            print(f"[Rank {self.local_rank}] Failed to save progress: {e}")
 
     def load_progress(self):
         """Restore the extraction progress marker."""
@@ -169,15 +169,15 @@ class ProgressManager:
 
         checkpoint_file = os.path.join(self.checkpoint_dir, f'checkpoint_batch_{batch_idx:06d}.pt')
 
-        print(f"[Rank {self.local_rank}] 🔄 开始保存检查点:")
-        print(f"[Rank {self.local_rank}]    - 批次索引: {batch_idx}")
-        print(f"[Rank {self.local_rank}]    - ECG嵌入形状: {ecg_embs.shape}")
-        print(f"[Rank {self.local_rank}]    - Text嵌入形状: {text_embs.shape}")
-        print(f"[Rank {self.local_rank}]    - 文本数量: {len(texts)}")
-        print(f"[Rank {self.local_rank}]    - 标签数量: {len(labels)}")
-        print(f"[Rank {self.local_rank}]    - 历史标签数量: {len(historical_labels)}")
-        print(f"[Rank {self.local_rank}]    - 文件名数量: {len(hash_filenames)}")
-        print(f"[Rank {self.local_rank}]    - 保存路径: {checkpoint_file}")
+        print(f"[Rank {self.local_rank}] Saving checkpoint:")
+        print(f"[Rank {self.local_rank}]    - Batch index: {batch_idx}")
+        print(f"[Rank {self.local_rank}]    - ECG embedding shape: {ecg_embs.shape}")
+        print(f"[Rank {self.local_rank}]    - Text embedding shape: {text_embs.shape}")
+        print(f"[Rank {self.local_rank}]    - Text count: {len(texts)}")
+        print(f"[Rank {self.local_rank}]    - Label count: {len(labels)}")
+        print(f"[Rank {self.local_rank}]    - Historical-label count: {len(historical_labels)}")
+        print(f"[Rank {self.local_rank}]    - Filename count: {len(hash_filenames)}")
+        print(f"[Rank {self.local_rank}]    - Save path: {checkpoint_file}")
 
         start_time = time.time()
         torch.save(checkpoint_data, checkpoint_file)
@@ -185,11 +185,11 @@ class ProgressManager:
 
         if os.path.exists(checkpoint_file):
             file_size = os.path.getsize(checkpoint_file) / (1024 * 1024)  # MB
-            print(f"[Rank {self.local_rank}] ✅ 检查点保存成功!")
-            print(f"[Rank {self.local_rank}]    - 保存耗时: {save_time:.2f}秒")
-            print(f"[Rank {self.local_rank}]    - 文件大小: {file_size:.2f}MB")
+            print(f"[Rank {self.local_rank}] Checkpoint saved successfully.")
+            print(f"[Rank {self.local_rank}]    - Save time: {save_time:.2f}s")
+            print(f"[Rank {self.local_rank}]    - File size: {file_size:.2f} MB")
         else:
-            print(f"[Rank {self.local_rank}] ❌ 检查点保存失败!")
+            print(f"[Rank {self.local_rank}] Failed to save checkpoint.")
 
         return checkpoint_file
 
@@ -207,10 +207,10 @@ def sync_and_check(local_rank, world_size, stage_name=""):
     """Synchronize workers before merging extraction results."""
     try:
         dist.barrier()
-        print(f"[Rank {local_rank}] {stage_name} 同步完成")
+        print(f"[Rank {local_rank}] {stage_name}: synchronization complete.")
         return True
     except Exception as e:
-        print(f"[Rank {local_rank}] {stage_name} 同步失败: {e}")
+        print(f"[Rank {local_rank}] {stage_name}: synchronization failed: {e}")
         return False
 
 def main_distributed(args):
@@ -221,15 +221,15 @@ def main_distributed(args):
 
     dist.init_process_group(backend='nccl', timeout=timedelta(seconds=1800))
 
-    print(f"[Rank {local_rank}] 开始使用预训练模型执行 HEEDD 嵌入向量提取任务")
-    print(f"[Rank {local_rank}] 使用设备: {device}")
-    print(f"[Rank {local_rank}] 总进程数: {dist.get_world_size()}")
+    print(f"[Rank {local_rank}] Starting HEEDB embedding extraction with the pretrained model.")
+    print(f"[Rank {local_rank}] Device: {device}")
+    print(f"[Rank {local_rank}] Total processes: {dist.get_world_size()}")
 
     world_size = dist.get_world_size()
 
     model, config = load_pretrained_model(args.config_path, local_rank)
 
-    print(f"[Rank {local_rank}] 正在从 {args.main_csv_path} 加载数据集...")
+    print(f"[Rank {local_rank}] Loading dataset from {args.main_csv_path}...")
     dataset = HEEDBDataset_train(indexed_csv_path=args.main_csv_path)
 
     sampler = DistributedSampler(
@@ -248,7 +248,7 @@ def main_distributed(args):
         sampler=sampler
     )
 
-    print(f"[Rank {local_rank}] 数据集加载完成，本地数据量: {len(data_loader.dataset)} 条记录。")
+    print(f"[Rank {local_rank}] Dataset loaded: {len(data_loader.dataset)} local records.")
     total_batches = len(data_loader)
 
     progress_manager = ProgressManager(local_rank, args.output_dir)
@@ -258,12 +258,12 @@ def main_distributed(args):
 
     if previous_progress and previous_progress.get('status') == 'processing':
         start_batch = previous_progress.get('processed_batches', 0)
-        print(f"[Rank {local_rank}] 检测到未完成的任务，从批次 {start_batch} 继续处理")
+        print(f"[Rank {local_rank}] Resuming an incomplete run from batch {start_batch}.")
     elif previous_progress and previous_progress.get('status') == 'completed':
-        print(f"[Rank {local_rank}] 任务已完成，跳过处理")
+        print(f"[Rank {local_rank}] Extraction already complete; skipping processing.")
         return True
 
-    print(f"[Rank {local_rank}] --- 开始分批提取嵌入向量 (从批次 {start_batch})... ---")
+    print(f"[Rank {local_rank}] --- Extracting embeddings from batch {start_batch} ---")
 
     processed_samples = 0
     batch_buffer_ecg = []
@@ -274,12 +274,12 @@ def main_distributed(args):
     batch_buffer_hash_filenames = []
 
     with torch.no_grad():
-        for batch_idx, batch in enumerate(tqdm(data_loader, desc=f"[Rank {local_rank}] 提取进度", initial=start_batch)):
+        for batch_idx, batch in enumerate(tqdm(data_loader, desc=f"[Rank {local_rank}] Extraction progress", initial=start_batch)):
             if batch_idx < start_batch:
                 continue
 
             if batch_idx % 10 == 0 or batch_idx >= start_batch:
-                print(f"[Rank {local_rank}] 🔍 处理批次 {batch_idx}, 缓冲区大小: {len(batch_buffer_ecg)}")
+                print(f"[Rank {local_rank}] Processing batch {batch_idx}; buffer size: {len(batch_buffer_ecg)}")
 
             try:
                 ecg = batch['ecg'].to(torch.float32).to(device).contiguous()
@@ -309,21 +309,21 @@ def main_distributed(args):
 
                 save_condition = (batch_idx + 1) % args.save_interval == 0 or batch_idx == total_batches - 1
                 if save_condition:
-                    print(f"[Rank {local_rank}] 🚀 触发保存条件:")
-                    print(f"[Rank {local_rank}]    - 当前批次: {batch_idx}")
-                    print(f"[Rank {local_rank}]    - 下一个保存批次: {((batch_idx // args.save_interval) + 1) * args.save_interval - 1}")
+                    print(f"[Rank {local_rank}] Save condition reached:")
+                    print(f"[Rank {local_rank}]    - Current batch: {batch_idx}")
+                    print(f"[Rank {local_rank}]    - Next save batch: {((batch_idx // args.save_interval) + 1) * args.save_interval - 1}")
                     print(f"[Rank {local_rank}]    - (batch_idx + 1) % save_interval = {(batch_idx + 1) % args.save_interval}")
-                    print(f"[Rank {local_rank}]    - 保存间隔: {args.save_interval}")
-                    print(f"[Rank {local_rank}]    - 是否最后批次: {batch_idx == total_batches - 1}")
-                    print(f"[Rank {local_rank}]    - 缓冲区批次数量: {len(batch_buffer_ecg)}")
-                    print(f"[Rank {local_rank}]    - 缓冲区样本数量: {len(batch_buffer_texts)}")
+                    print(f"[Rank {local_rank}]    - Save interval: {args.save_interval}")
+                    print(f"[Rank {local_rank}]    - Final batch: {batch_idx == total_batches - 1}")
+                    print(f"[Rank {local_rank}]    - Buffered batches: {len(batch_buffer_ecg)}")
+                    print(f"[Rank {local_rank}]    - Buffered samples: {len(batch_buffer_texts)}")
 
                     if batch_buffer_ecg:
-                        print(f"[Rank {local_rank}] 📦 开始合并缓冲区数据...")
+                        print(f"[Rank {local_rank}] Merging buffered data...")
                         ecg_embs_combined = torch.cat(batch_buffer_ecg, dim=0)
                         text_embs_combined = torch.cat(batch_buffer_text, dim=0)
-                        print(f"[Rank {local_rank}]    - 合并后ECG形状: {ecg_embs_combined.shape}")
-                        print(f"[Rank {local_rank}]    - 合并后Text形状: {text_embs_combined.shape}")
+                        print(f"[Rank {local_rank}]    - Merged ECG shape: {ecg_embs_combined.shape}")
+                        print(f"[Rank {local_rank}]    - Merged text shape: {text_embs_combined.shape}")
 
                         progress_manager.save_checkpoint(
                             batch_idx,
@@ -337,7 +337,7 @@ def main_distributed(args):
 
                         progress_manager.save_progress(batch_idx + 1, processed_samples, datetime.now().isoformat())
 
-                        print(f"[Rank {local_rank}] 🧹 清空缓冲区和清理内存...")
+                        print(f"[Rank {local_rank}] Clearing buffers and releasing memory...")
                         batch_buffer_ecg = []
                         batch_buffer_text = []
                         batch_buffer_texts = []
@@ -347,24 +347,24 @@ def main_distributed(args):
 
                         gc.collect()
                         torch.cuda.empty_cache()
-                        print(f"[Rank {local_rank}] ✅ 缓冲区已清空，内存已清理")
+                        print(f"[Rank {local_rank}] Buffers cleared and memory released.")
                     else:
-                        print(f"[Rank {local_rank}] ⚠️ 缓冲区为空，跳过保存")
+                        print(f"[Rank {local_rank}] Buffer empty; skipping save.")
 
             except Exception as e:
-                print(f"[Rank {local_rank}] 处理批次 {batch_idx} 时出错: {e}")
+                print(f"[Rank {local_rank}] Error processing batch {batch_idx}: {e}")
                 progress_manager.save_progress(batch_idx, processed_samples, datetime.now().isoformat())
                 continue
 
     if batch_buffer_ecg:
-        print(f"[Rank {local_rank}] 🏁 保存最后剩余的缓冲区数据:")
-        print(f"[Rank {local_rank}]    - 剩余批次数量: {len(batch_buffer_ecg)}")
-        print(f"[Rank {local_rank}]    - 剩余样本数量: {len(batch_buffer_texts)}")
+        print(f"[Rank {local_rank}] Saving the remaining buffered data:")
+        print(f"[Rank {local_rank}]    - Remaining batches: {len(batch_buffer_ecg)}")
+        print(f"[Rank {local_rank}]    - Remaining samples: {len(batch_buffer_texts)}")
 
         ecg_embs_combined = torch.cat(batch_buffer_ecg, dim=0)
         text_embs_combined = torch.cat(batch_buffer_text, dim=0)
-        print(f"[Rank {local_rank}]    - 最终ECG形状: {ecg_embs_combined.shape}")
-        print(f"[Rank {local_rank}]    - 最终Text形状: {text_embs_combined.shape}")
+        print(f"[Rank {local_rank}]    - Final ECG shape: {ecg_embs_combined.shape}")
+        print(f"[Rank {local_rank}]    - Final text shape: {text_embs_combined.shape}")
 
         progress_manager.save_checkpoint(
             total_batches - 1,
@@ -375,18 +375,18 @@ def main_distributed(args):
             batch_buffer_historical_labels,
             batch_buffer_hash_filenames
         )
-        print(f"[Rank {local_rank}] ✅ 最终缓冲区保存完成")
+        print(f"[Rank {local_rank}] Final buffer saved.")
     else:
-        print(f"[Rank {local_rank}] ℹ️ 没有剩余的缓冲区数据需要保存")
+        print(f"[Rank {local_rank}] No buffered data remains to be saved.")
 
     progress_manager.mark_completed()
-    print(f"[Rank {local_rank}] 本地处理完成，共处理 {processed_samples} 个样本")
+    print(f"[Rank {local_rank}] Local processing complete: {processed_samples} samples.")
 
-    if not sync_and_check(local_rank, world_size, "数据处理完成"):
+    if not sync_and_check(local_rank, world_size, "Data processing complete"):
         return False
 
     if local_rank == 0:
-        print(f"[Rank {local_rank}] --- 开始合并所有rank的结果... ---")
+        print(f"[Rank {local_rank}] --- Merging results from all ranks ---")
 
         merge_dir = os.path.join(args.output_dir, 'merged_results')
         os.makedirs(merge_dir, exist_ok=True)
@@ -401,7 +401,7 @@ def main_distributed(args):
         for rank in range(world_size):
             rank_checkpoint_dir = os.path.join(args.output_dir, f'checkpoints_rank_{rank}')
             if os.path.exists(rank_checkpoint_dir):
-                print(f"[Rank {local_rank}] 正在合并 Rank {rank} 的数据...")
+                print(f"[Rank {local_rank}] Merging data from rank {rank}...")
 
                 checkpoint_files = sorted([f for f in os.listdir(rank_checkpoint_dir) if f.endswith('.pt')])
 
@@ -418,26 +418,26 @@ def main_distributed(args):
                         all_hash_filenames.extend(checkpoint_data['hash_filenames'])
 
                     except Exception as e:
-                        print(f"[Rank {local_rank}] 加载检查点 {checkpoint_file} 失败: {e}")
+                        print(f"[Rank {local_rank}] Failed to load checkpoint {checkpoint_file}: {e}")
                         continue
 
         if all_ecg_embeddings:
-            print(f"[Rank {local_rank}] 正在合并所有嵌入向量...")
+            print(f"[Rank {local_rank}] Merging all embeddings...")
             all_ecg_embeddings = torch.cat(all_ecg_embeddings, dim=0)
             all_text_embeddings = torch.cat(all_text_embeddings, dim=0)
 
-            print(f"[Rank {local_rank}] 合并完成 - ECG: {all_ecg_embeddings.shape}, Text: {all_text_embeddings.shape}")
+            print(f"[Rank {local_rank}] Merge complete - ECG: {all_ecg_embeddings.shape}, text: {all_text_embeddings.shape}")
 
-            print(f"[Rank {local_rank}] --- 正在保存最终结果... ---")
+            print(f"[Rank {local_rank}] --- Saving final results ---")
 
             try:
                 ecg_output_path = os.path.join(args.output_dir, 'heedb_ecg_embeddings.pt')
                 torch.save(all_ecg_embeddings, ecg_output_path)
-                print(f"[Rank {local_rank}] ECG嵌入已保存至: {ecg_output_path}")
+                print(f"[Rank {local_rank}] ECG embeddings saved to: {ecg_output_path}")
 
                 text_output_path = os.path.join(args.output_dir, 'heedb_text_embeddings.pt')
                 torch.save(all_text_embeddings, text_output_path)
-                print(f"[Rank {local_rank}] Text嵌入已保存至: {text_output_path}")
+                print(f"[Rank {local_rank}] Text embeddings saved to: {text_output_path}")
 
                 text_df = pd.DataFrame({
                     'HashFileName': all_hash_filenames,
@@ -447,7 +447,7 @@ def main_distributed(args):
                 })
                 text_info_path = os.path.join(args.output_dir, 'heedb_texts.csv')
                 text_df.to_csv(text_info_path, index=False)
-                print(f"[Rank {local_rank}] 文本信息已保存至: {text_info_path}")
+                print(f"[Rank {local_rank}] Text information saved to: {text_info_path}")
 
                 stats = {
                     'total_samples': len(all_texts),
@@ -466,10 +466,10 @@ def main_distributed(args):
                     f.write("=" * 50 + "\n")
                     for key, value in stats.items():
                         f.write(f"{key}: {value}\n")
-                print(f"[Rank {local_rank}] 统计信息已保存至: {stats_path}")
+                print(f"[Rank {local_rank}] Statistics saved to: {stats_path}")
 
                 if args.cleanup_checkpoints:
-                    print(f"[Rank {local_rank}] 清理检查点文件...")
+                    print(f"[Rank {local_rank}] Removing checkpoint files...")
                     for rank in range(world_size):
                         rank_checkpoint_dir = os.path.join(args.output_dir, f'checkpoints_rank_{rank}')
                         if os.path.exists(rank_checkpoint_dir):
@@ -479,14 +479,14 @@ def main_distributed(args):
                             os.remove(progress_file)
 
             except Exception as e:
-                print(f"[Rank {local_rank}] 保存数据时出错: {e}")
+                print(f"[Rank {local_rank}] Error saving data: {e}")
                 return False
 
-    if not sync_and_check(local_rank, world_size, "任务完成"):
+    if not sync_and_check(local_rank, world_size, "Task complete"):
         return False
 
     dist.destroy_process_group()
-    print(f"[Rank {local_rank}] --- HEEDB 嵌入向量提取任务执行完毕 ---")
+    print(f"[Rank {local_rank}] --- HEEDB embedding extraction complete ---")
 
     return True
 
@@ -497,34 +497,34 @@ def main(args):
 if __name__ == '__main__':
     from datetime import timedelta
 
-    parser = argparse.ArgumentParser(description="使用预训练模型提取HEEDB ECG和Text嵌入向量的脚本 (增强版)")
+    parser = argparse.ArgumentParser(description="Extract HEEDB ECG and text embeddings with the pretrained model")
 
     parser.add_argument('--config_path', type=str,
                         default='__ECG_CONFIG_REQUIRED__',
-                        help='模型配置文件路径')
+                        help='Path to the model configuration file')
     parser.add_argument('--main_csv_path', type=str,
                         default='__ECG_DATA_ROOT_REQUIRED__/heedb_embedding/heedb_with_multilabels_historical_updated.csv',
-                        help='包含更新后路径的HEEDB数据索引CSV文件路径')
+                        help='Path to the HEEDB indexed CSV with updated waveform paths')
     parser.add_argument('--output_dir', type=str,
                         default='__ECG_DATA_ROOT_REQUIRED__/heedb_embedding/robust',
-                        help='ECG嵌入和元数据文件的输出目录')
+                        help='Output directory for ECG embeddings and metadata')
     parser.add_argument('--batch_size', type=int, default=256,
-                        help='推理时使用的批次大小')
+                        help='Batch size for inference')
     parser.add_argument('--num_workers', type=int, default=6,
-                        help='数据加载使用的工作线程数')
+                        help='Number of data-loader workers')
     parser.add_argument('--save_interval', type=int, default=6,
-                        help='保存检查点的间隔批次数')
+                        help='Number of batches between checkpoints')
     parser.add_argument('--cleanup_checkpoints', action='store_true',
-                        help='完成后清理检查点文件')
+                        help='Remove checkpoint files after completion')
 
     args = parser.parse_args()
 
     if not os.path.exists(args.main_csv_path):
-        print(f"错误: 输入CSV文件不存在: {args.main_csv_path}")
+        print(f"Error: input CSV does not exist: {args.main_csv_path}")
         sys.exit(1)
 
     if not os.path.exists(args.config_path):
-        print(f"错误: 配置文件不存在: {args.config_path}")
+        print(f"Error: configuration file does not exist: {args.config_path}")
         sys.exit(1)
 
     os.makedirs(args.output_dir, exist_ok=True)
@@ -532,7 +532,7 @@ if __name__ == '__main__':
     success = main(args)
 
     if success:
-        print("\n✅ 嵌入向量提取成功完成！")
+        print("\nEmbedding extraction completed successfully.")
     else:
-        print("\n❌ 嵌入向量提取失败！")
+        print("\nEmbedding extraction failed.")
         sys.exit(1)

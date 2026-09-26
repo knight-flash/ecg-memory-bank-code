@@ -54,7 +54,7 @@ def load_full_model(config, device):
     model_name = config['network']['model_name']
     model_path = config['network']['ckpt_path']
 
-    print(f"正在从 {model_path} 加载完整的 {model_name} 模型...")
+    print(f"Loading the full model from {model_path} ({model_name})...")
 
     model = utils_builder.ECGCLIP(config['network'])
 
@@ -69,20 +69,20 @@ def load_full_model(config, device):
     model.to(device)
     model.eval()
 
-    print("模型加载并准备就绪！")
+    print("Model loaded and ready.")
     return model
 
 
 def main(args):
-    print("--- 开始执行嵌入向量提取任务 ---")
+    print("--- Starting embedding extraction ---")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"使用设备: {device}")
+    print(f"Device: {device}")
 
     with open(args.config_path, 'r') as f:
         config = yaml.safe_load(f)
     model = load_full_model(config, device)
 
-    print(f"正在从 {args.main_csv_path} 加载MIMIC数据集...")
+    print(f"Loading the MIMIC dataset from {args.main_csv_path}...")
 
     MIMIC_RAW_DATA_DIR = args.mimic_raw_data_dir
 
@@ -97,15 +97,15 @@ def main(args):
         shuffle=False,
         num_workers=args.num_workers
     )
-    print(f"数据集加载完成，共 {len(dataset)} 条记录。")
+    print(f"Dataset loaded: {len(dataset)} records.")
 
-    print("\n--- 正在提取嵌入向量... ---")
+    print("\n--- Extracting embeddings ---")
     all_ecg_embs = []
     all_text_embs = []
     all_metadata = []
 
     with torch.no_grad():
-        for batch in tqdm(data_loader, desc="提取进度"):
+        for batch in tqdm(data_loader, desc="Extraction progress"):
             ecg_signals = batch['ecg'].to(device)
             raw_texts = batch['txt']
 
@@ -123,7 +123,7 @@ def main(args):
             all_text_embs.append(proj_text_emb.cpu())
 
 
-    print("\n--- 正在整合并保存提取结果... ---")
+    print("\n--- Consolidating and saving extraction results ---")
 
     os.makedirs(args.output_dir, exist_ok=True)
 
@@ -136,31 +136,31 @@ def main(args):
     torch.save(ecg_embeddings_tensor, ecg_output_path)
     torch.save(text_embeddings_tensor, text_output_path)
 
-    print(f"ECG嵌入已保存至: {ecg_output_path} (形状: {ecg_embeddings_tensor.shape})")
-    print(f"文本嵌入已保存至: {text_output_path} (形状: {text_embeddings_tensor.shape})")
+    print(f"ECG embeddings saved to: {ecg_output_path} (shape: {ecg_embeddings_tensor.shape})")
+    print(f"Text embeddings saved to: {text_output_path} (shape: {text_embeddings_tensor.shape})")
 
     metadata_output_path = os.path.join(args.output_dir, 'metadata.csv')
     original_df = pd.read_csv(args.main_csv_path)
     original_df.to_csv(metadata_output_path, index=False)
-    print(f"元数据已保存至: {metadata_output_path}")
+    print(f"Metadata saved to: {metadata_output_path}")
 
-    print("\n--- 任务执行完毕 ---")
+    print("\n--- Extraction complete ---")
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="ECG和文本嵌入向量提取脚本")
+    parser = argparse.ArgumentParser(description="Extract ECG and text embeddings")
 
     parser.add_argument('--config_path', type=str, default='__ECG_CONFIG_REQUIRED__',
-                        help='主配置文件路径')
+                        help='Path to the main configuration file')
     parser.add_argument('--main_csv_path', type=str, default='__ECG_DATA_ROOT_REQUIRED__/mimic/mimic_final_with_labels.csv',
-                        help='包含所有数据的索引CSV文件路径')
+                        help='Path to the indexed CSV containing all records')
     parser.add_argument('--mimic_raw_data_dir', type=str, required=True,
-                        help='外部 MIMIC-IV-ECG 原始波形根目录')
+                        help='External root directory for raw MIMIC-IV-ECG waveforms')
     parser.add_argument('--output_dir', type=str, default='__ECG_DATA_ROOT_REQUIRED__/feature/mimic',
-                        help='嵌入和元数据文件的输出目录')
+                        help='Output directory for embeddings and metadata')
     parser.add_argument('--batch_size', type=int, default=64,
-                        help='推理时使用的批次大小')
+                        help='Batch size for inference')
     parser.add_argument('--num_workers', type=int, default=4,
-                        help='数据加载使用的工作线程数')
+                        help='Number of data-loader workers')
 
     args = parser.parse_args()
     main(args)

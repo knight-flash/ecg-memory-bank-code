@@ -225,7 +225,7 @@ class trainer_wBert:
 
                     torch.save(self.model.module.state_dict(), total_model_path)
 
-                    print(f"在 batch {niter} 处保存检查点:")
+                    print(f"Saving checkpoint at batch {niter}:")
                     print(f"   Encoder -> {encoder_path}")
                     print(f"   Total model -> {total_model_path}")
             val_log = self.val(val_loader)
