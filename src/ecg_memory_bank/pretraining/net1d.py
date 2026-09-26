@@ -28,6 +28,12 @@ Shapes and meaning
 ------------------
 Waveform input is [B,12,T]; intermediate maps are [B,channels,time]; the
 builder uses its record features for a 256-D projection.
+
+Upstream attribution
+--------------------
+Adapted from Shenda Hong's ``resnet1d/net1d.py`` (Mar 2020), distributed under
+Apache-2.0 and later included in ECGFounder. This archive adds ECGCLIP-specific
+integration and documentation; see ``THIRD_PARTY_NOTICES.md``.
 """
 
 import numpy as np

@@ -1,11 +1,13 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ecg-memory-bank"
-version = "0.1.0"
+version = "1.0.0"
 description = "Source-only ECG Memory Bank paper code archive"
+license = "MIT AND Apache-2.0"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md", "licenses/*.txt"]
 requires-python = ">=3.10,<3.11"
 dependencies = [
   "numpy==1.26.4",
@@ -25,6 +27,9 @@ dependencies = [
   "wandb==0.18.6",
   "einops==0.8.0",
 ]
+
+[project.urls]
+Repository = "https://github.com/knight-flash/ecg-memory-bank-code"
 
 [tool.setuptools.packages.find]
 where = ["src"]

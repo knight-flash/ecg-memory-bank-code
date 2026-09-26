@@ -1,9 +1,18 @@
 # ECG Memory Bank: paper code archive
 
+**Release:** `v1.0.0` (final manuscript code)
+
 This folder contains **source code and static configuration only** for the manuscript in
 `../ECG_Memory_Bank_for_Governable_Use_of_Historical_Cases_in_Diagnosis_and_Interpretation.zip`.
 No patient records, waveforms, embeddings, weights, generated reports, ratings, figures,
 logs, or experiment outputs are included. The original `Result&Code/` directory was not changed.
+
+## License
+
+Original project code is released under the [MIT License](LICENSE). The adapted
+ECGFounder `net1d.py` backbone also carries upstream Apache-2.0 obligations;
+see [third-party notices](THIRD_PARTY_NOTICES.md) and the included license texts.
+Data, model weights, and external API services are outside this code license.
 
 ## Setup
 

@@ -6,7 +6,9 @@ Server source paths are relative to `/data2/2shared/yanmingke/`. All original fi
 | --- | --- | --- | --- |
 | `.gitattributes` | `authored_for_release` | `—` | `d60f352d0db1404c70afb4bb8b2ca3fd1c610572aa40720e8a0b7baa7885418c` |
 | `.gitignore` | `authored_for_release` | `—` | `bfa62ae8192b9cd9d3f661e4c071b108038c8528d0099cecaf537abd80b5756f` |
-| `README.md` | `authored_for_release` | `—` | `a1436f441c758496270a99dada1ab781120ca36f923882eb7c791d3927227c09` |
+| `LICENSE` | `authored_for_release` | `—` | `c5bbbf4491ab9873a4eed4198da6344afd32bed3a1d5c3c5df1a9a73cbe829ba` |
+| `README.md` | `authored_for_release` | `—` | `c726cc34438035bb441d814e3976e2b122de1044b74b0012d3d9534df659235e` |
+| `THIRD_PARTY_NOTICES.md` | `authored_for_release` | `—` | `215276c8a4a45e5532469cfb18ecd48ecd494956942405e7c0706fca9678ce06` |
 | `configs/example_broad_heedb.json` | `authored_for_release` | `—` | `f5b0040d70bc616ad5ce96c9964b3f6e9d8100f21d543a059f98885c0ae39fa0` |
 | `configs/example_judge.json` | `authored_for_release` | `—` | `3d648a87cf7fefd4e4dd5b85a3d4dfb684765b2d7400f0d78aae6f24d9acad42` |
 | `configs/example_prototype_heedb.json` | `authored_for_release` | `—` | `6e8e4883de112a83034ab4ccec31f56f75a0e13545c9418428df9271a8cfc93a` |
@@ -22,10 +24,12 @@ Server source paths are relative to `/data2/2shared/yanmingke/`. All original fi
 | `docs/EMBEDDING_SOURCE_PATHS.md` | `authored_for_release` | `—` | `f9bdf97256b3ae57f29fccd4169a4689bc6c0aff62c9005d18910c0a245f8c72` |
 | `docs/GAPS.md` | `authored_for_release` | `—` | `fc4dd5567869a99b2bd2fb16d5a4b51209a1a4192ce748059a2bae86a8f1abf4` |
 | `docs/PAPER_CODE_MAP.md` | `authored_for_release` | `—` | `101b26163b1212d18b5c873a5d9a4038fd18ff00de6e2b53cce943304367c988` |
-| `pyproject.toml` | `authored_for_release` | `—` | `ad805109fb1f5d12a70320a72a0603d1c529e599b47f6249b391e23bf6544129` |
+| `licenses/Apache-2.0.txt` | `https://www.apache.org/licenses/LICENSE-2.0.txt` | `cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30` | `cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30` |
+| `licenses/ECGFounder-MIT.txt` | `https://github.com/PKUDigitalHealth/ECGFounder/blob/master/LICENSE` | `—` | `b872b97f0675d67a350880e22e21ffd9fb76dfcb8989f89d950bd3f49eca959e` |
+| `pyproject.toml` | `authored_for_release` | `—` | `aa1280372764eb35eaa4b3e7d139dde023b12e40574102451530a617bc83399c` |
 | `scripts/run_extraction.py` | `authored_for_release` | `—` | `f1cbec25856f7752a2c41f25cc9bf276dffba0cf9b8c2deb5da13a95bc047a03` |
 | `scripts/run_paper.py` | `authored_for_release` | `—` | `34983aa58c1920b855722d9a515b54360acc503f1b5262c5ac69a23ff9b51b9e` |
-| `src/ecg_memory_bank/__init__.py` | `authored_for_release` | `—` | `3b0b6786ea7593c9e405a634b51e9fa2e63bcdc937e25f28d67172ee83b4569e` |
+| `src/ecg_memory_bank/__init__.py` | `authored_for_release` | `—` | `b27eebd88e27a5ebec22156137d7d1023f79d6cfcc567029d929bef459018fc9` |
 | `src/ecg_memory_bank/analysis/__init__.py` | `authored_for_release` | `—` | `3b0b6786ea7593c9e405a634b51e9fa2e63bcdc937e25f28d67172ee83b4569e` |
 | `src/ecg_memory_bank/analysis/aggregate_reader_scores.py` | `Result&Code/LLM/human/aggregate_glm5_scores.py` | `409dcaab290c31f6081f36b66c43411a3e64a9a6cdaeb5b26ba95017f721a731` | `cb8ed82feb7f9f90c6dfc9c9eddc92b538f2b56fd2db5b85fa576abe05b87f18` |
 | `src/ecg_memory_bank/analysis/reader_agreement.py` | `Result&Code/LLM/human/analyze_inter_rater_reliability.py` | `53d7b55680c4c685a1cb993aac0b1b208efa98b0eeeccbd1e4a633e00728a66d` | `0e02625624ad486a306b01c089d14d5f333c5175950693b0ce06331dbeed8cc2` |
@@ -65,7 +69,7 @@ Server source paths are relative to `/data2/2shared/yanmingke/`. All original fi
 | `src/ecg_memory_bank/pretraining/__init__.py` | `authored_for_release` | `—` | `7e923fa340c98bf6bb24ad18ae0f28d43eb5d333db941b0bfa5eb3ef335e8b5b` |
 | `src/ecg_memory_bank/pretraining/dataset.py` | `server:history_file/ecgfounder2_0723/utils/utils_dataset_heedb.py` | `4bc67e513a1b22ab4a56b6bd99d02ded413fd0879ca6f76d03093a96d7d1a3a8` | `867013157e30c711bfeff1725b5dc225a8ba4a058e92fe1c1b35a0a7bc28d7bc` |
 | `src/ecg_memory_bank/pretraining/extract_ecg_embeddings.py` | `authored_for_release` | `—` | `206de5f096d064e4ce665d44f2cb45c2e3b1ab8d7e58c3a62b8c8d203a144c40` |
-| `src/ecg_memory_bank/pretraining/net1d.py` | `server:history_file/ecgfounder2_0723/utils/net1d.py` | `3a5cf48af1d8f50cae05e05fb0a365d5dbd58fc758168a4394b230c63a2fcb20` | `3142fa13df0a65ba5488603ef3c571ff536b59f382f01d4954c3f4087ff6508c` |
+| `src/ecg_memory_bank/pretraining/net1d.py` | `server:history_file/ecgfounder2_0723/utils/net1d.py` | `3a5cf48af1d8f50cae05e05fb0a365d5dbd58fc758168a4394b230c63a2fcb20` | `b8af6903d9818e172f7b59d7ff0d41aa5d38464dfcc37e2d56a70655ab95671f` |
 | `src/ecg_memory_bank/pretraining/resnet1d.py` | `server:history_file/ecgfounder2_0723/utils/resnet1d.py` | `1fb505fed1f96a05995fae8345e8bb05337ac3da165983c7bb406ab3c725777a` | `62465107a1ffcfbaf78aef3f71179f76c7fa5e9068073010455887edc637b86e` |
 | `src/ecg_memory_bank/pretraining/train_ecg_text_encoder.py` | `server:history_file/ecgfounder2_0723/pretrain/main.py` | `dbece87159206f306180df05e9de572e2ee19d429d52e48b6800ec9d44b389da` | `ed7ffe0cbee306d92ede14e9cee901867c57fbd922850fab20ce27b4bb8addab` |
 | `src/ecg_memory_bank/pretraining/utils_builder.py` | `server:history_file/ecgfounder2_0723/utils/utils_builder.py` | `31dbd622601eb853451a9b4d59810410a7ea4416d30e109fdc84b5625b4be90d` | `235206914a5ddd42d68ba2661aa14d287332ad341e43039657f6cf76948d8a32` |
@@ -119,4 +123,4 @@ Server source paths are relative to `/data2/2shared/yanmingke/`. All original fi
 | `src/ecg_memory_bank/sensitivity/full_memory_retrieval.py` | `Result&Code/ecgfoundercompare/retrieval/scale_benchmark.py` | `0f69c7add3c6ea89f507d7e1f8a36050b9136f6547e5fa90949f219d5573da16` | `6b6ca09c6e137084e54a78a57d89cce19faef0fafe3aa420e687bd19be5f303d` |
 | `src/ecg_memory_bank/sensitivity/targeted_case_addition_chagas.py` | `Result&Code/ecgfoundercompare/KnowledgeEditing/cold_start_chagas_emergence.py` | `8805966abaa999da8fa194f41b80a393ed41196de92c407f2aef8d4559374d51` | `628127babadeeaa1fc98e022c3737bd759122cf67c7fa5c6a9abd7bbb71e00b6` |
 | `tests/test_protocol.py` | `authored_for_release` | `—` | `48f692cef612661877b759e0cfd1db11d0be1f7c36680f86187c01e2a792fcf3` |
-| `tests/test_release_contents.py` | `authored_for_release` | `—` | `2fc79e67afc1488472f9990894118406bec48b32eb51480605cec494275f4bd0` |
+| `tests/test_release_contents.py` | `authored_for_release` | `—` | `6c21277590b23766da8cf0f9f2e5b5d55a4a1fe813d5171a907d0debb31e39c2` |

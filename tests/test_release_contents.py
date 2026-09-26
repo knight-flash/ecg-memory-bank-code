@@ -10,6 +10,21 @@ from pathlib import Path
 
 
 class ReleaseContentsTests(unittest.TestCase):
+    def test_release_version_and_license_metadata(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        metadata = (root / "pyproject.toml").read_text(encoding="utf-8")
+        match = re.search(r'^version = "([0-9]+\.[0-9]+\.[0-9]+)"$', metadata, re.MULTILINE)
+        self.assertIsNotNone(match)
+        version = match.group(1)
+        package = ast.parse((root / "src" / "ecg_memory_bank" / "__init__.py").read_text(encoding="utf-8"))
+        assignments = [node for node in package.body if isinstance(node, ast.Assign)]
+        self.assertEqual(ast.literal_eval(assignments[0].value), version)
+        self.assertIn(f"v{version}", (root / "README.md").read_text(encoding="utf-8"))
+        self.assertIn('license = "MIT AND Apache-2.0"', metadata)
+        self.assertIn("MIT License", (root / "LICENSE").read_text(encoding="utf-8"))
+        self.assertTrue((root / "licenses" / "Apache-2.0.txt").is_file())
+        self.assertTrue((root / "licenses" / "ECGFounder-MIT.txt").is_file())
+
     def test_archive_text_has_no_chinese(self) -> None:
         root = Path(__file__).resolve().parents[1]
         text_suffixes = {".py", ".md", ".csv", ".json", ".yaml", ".yml", ".toml", ".txt"}
