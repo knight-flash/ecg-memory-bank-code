@@ -1,5 +1,36 @@
 #!/usr/bin/env python3
-"""Extract CODE-15 ECGCLIP embeddings with restartable batches."""
+"""CODE-15 extraction.
+
+Purpose
+-------
+Reproduce CODE-15 ECGCLIP embedding generation for six-label and Chagas
+analyses.
+
+Method
+------
+Read indexed ECG waveforms and labels, normalize and encode in restartable
+batches, then merge vectors with metadata.
+
+Inputs
+------
+External CODE-15 index CSV, full ECGCLIP config/checkpoint, and MedCPT model
+directory.
+
+Outputs
+-------
+External code15_ecgclip_embeddings.pt, code15_labels.pt, metadata CSV, and
+progress records.
+
+Paper parameters
+----------------
+Default batch size is 128; save_interval and gpu_id control execution rather
+than diagnostic definitions.
+
+Shapes and meaning
+------------------
+Each ECG becomes one 256-D vector; labels are per-record binary indicators
+used by retrieval and prototype experiments.
+"""
 
 
 import os

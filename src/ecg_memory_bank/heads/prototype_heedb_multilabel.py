@@ -1,13 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-L3 full-label adaptive-prototype ProtoPNet experiment for Finalmore.
+"""Full-label HEEDB prototype experiment.
 
-This script reuses the cleaned HEEDB -> MIMIC protocol from
-`Final/Prototype/protopnet/prototype_heedb.py`,
-but replaces the paper-facing 18-class target definition with a CSV-driven
-full-label protocol and uses adaptive prototype count allocation based on
-per-class positive sample counts.
+Purpose
+-------
+Run the paper's 120-label HEEDB internal model and its MIMIC external transfer
+evaluation.
+
+Method
+------
+Load curated L3 aliases, allocate prototypes by class support, train and
+project a ProtoPNet head, then evaluate the same head on two cohorts.
+
+Inputs
+------
+HEEDB train/val/test tensors and metadata, external MIMIC tensors/metadata,
+and curated label-config CSV.
+
+Outputs
+-------
+External model checkpoints, HEEDB/MIMIC AUROC summaries, per-class files, and
+projected case-link artifacts.
+
+Paper parameters
+----------------
+The formal runner passes seed=42, 3000 total prototype budget, 1–30 per class,
+and 1000 bootstrap resamples; standalone historical defaults differ.
+
+Shapes and meaning
+------------------
+Input vectors are [N,D]; targets/scores [N,120] internally and matched mapped
+labels externally; prototypes are [P,D] with real-case anchors.
 """
 
 from __future__ import annotations

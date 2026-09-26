@@ -1,3 +1,35 @@
+"""Report label-context preparation.
+
+Purpose
+-------
+Create the run-local label context consumed by RAG and No-RAG prompts.
+
+Method
+------
+Compute label frequencies, merge reference classifications and overrides, and
+save candidate labels grouped by category.
+
+Inputs
+------
+External corrected MIMIC metadata, classification spreadsheet, and optional
+count CSV.
+
+Outputs
+-------
+External label-context JSON/CSV and mapping audit in the selected run
+directory.
+
+Paper parameters
+----------------
+Uses the shared nine-category ontology; the benchmark candidate list is fixed
+for paired generation modes.
+
+Shapes and meaning
+------------------
+Candidate order defines the C score columns and diagnostic slots; counts are
+descriptive memory support, not model probabilities.
+"""
+
 from __future__ import annotations
 
 import argparse

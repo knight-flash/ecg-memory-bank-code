@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""CODE-15 Chagas targeted addition.
+
+Purpose
+-------
+Measure the diagnostic effect of adding Chagas-positive historical ECGs to a
+memory initially containing no positive Chagas reference.
+
+Method
+------
+Create one record-level seeded query split, add positive cases cumulatively,
+rebuild the index, and compare with a matched-size negative-case control.
+
+Inputs
+------
+CODE-15 embedding tensor and aligned metadata with record ID and binary chagas
+indicator.
+
+Outputs
+-------
+External split manifest, stage-wise retrieved neighbors, binary AUROC,
+Recall@K, and paired bootstrap summaries.
+
+Paper parameters
+----------------
+Query counts are 1000 positive and 4000 negative; additions are 0, 50, 100,
+300, 800, 2000, and 5000; K=10, seed=42, bootstrap=1000.
+
+Shapes and meaning
+------------------
+Embeddings are [N,D]; query labels are [5000] binary indicators. Each Chagas
+score is the mean positive indicator among the retrieved K cases.
+"""
+
+
 from __future__ import annotations
 
 import argparse

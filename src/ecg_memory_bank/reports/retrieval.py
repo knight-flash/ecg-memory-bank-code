@@ -1,3 +1,34 @@
+"""Top-K cosine case retrieval for reports.
+
+Purpose
+-------
+Retrieve historical case evidence for the report consumer while preventing
+same-patient leakage.
+
+Method
+------
+Normalize vectors, search gallery chunks by cosine similarity, mask disallowed
+patient IDs, and retain the best K scores.
+
+Inputs
+------
+Query/gallery embedding tensors and optional subject-ID lists.
+
+Outputs
+-------
+CPU tensors of neighbor row indices and cosine similarities.
+
+Paper parameters
+----------------
+Formal report retrieval uses K=5; chunk_size controls memory and device
+selects CPU/GPU.
+
+Shapes and meaning
+------------------
+Inputs are [Q,D] and [N,D]; outputs are indices/scores [Q,K]. Similarity is a
+ranking signal, not a diagnosis probability.
+"""
+
 from __future__ import annotations
 
 import numpy as np

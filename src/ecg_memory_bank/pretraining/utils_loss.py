@@ -1,3 +1,34 @@
+"""CLIP contrastive objective.
+
+Purpose
+-------
+Compute symmetric ECG-to-text and text-to-ECG alignment loss and retrieval
+accuracy.
+
+Method
+------
+L2-normalize paired vectors, form a temperature-scaled similarity matrix,
+apply cross-entropy in both directions, and report top-1/top-5 precision.
+
+Inputs
+------
+Paired ECG/text feature tensors and a temperature value.
+
+Outputs
+-------
+A scalar sum of two cross-entropy losses and two accuracy tensors.
+
+Paper parameters
+----------------
+temperature defaults to 0.07; paired rows are treated as positives and all
+other rows in the batch as negatives.
+
+Shapes and meaning
+------------------
+Inputs are [B,D]; similarity is [B,B]. Diagonal entry i,i is the true
+ECG/report pair.
+"""
+
 import os
 from typing import Type
 import torch

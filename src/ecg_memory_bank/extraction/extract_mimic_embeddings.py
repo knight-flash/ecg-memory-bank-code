@@ -1,4 +1,34 @@
-"""Extract MIMIC-IV-ECG embeddings with the original waveform pipeline."""
+"""MIMIC-IV-ECG extraction.
+
+Purpose
+-------
+Reproduce the original MIMIC ECGCLIP feature extraction used by the downstream
+paper tasks.
+
+Method
+------
+Read subject/study-indexed WFDB records, apply HEEDB-compatible preprocessing,
+run the full dual encoder, and save vectors plus original row order.
+
+Inputs
+------
+External MIMIC index CSV, raw waveform root, ECGCLIP config/checkpoint, and
+MedCPT directory.
+
+Outputs
+-------
+External ecg_embeddings.pt, text_embeddings.pt, and metadata.csv.
+
+Paper parameters
+----------------
+The script uses shuffle=False and default batch size 64; missing path/report
+rows are dropped by its dataset reader.
+
+Shapes and meaning
+------------------
+ECG input is [B,12,5000], vectors are [N,256]. Saved metadata study_id order
+should match the generated vector order.
+"""
 
 import os
 import torch

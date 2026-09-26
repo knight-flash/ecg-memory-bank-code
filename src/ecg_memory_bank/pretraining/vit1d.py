@@ -1,10 +1,32 @@
-"""
-PyTorch Implementation of Vision Transformer
-("An Image is Worth 16X16 Words: Transformers for Image Recognition at Scale")
+"""Alternative one-dimensional ViT blocks.
 
-Reference
-- Paper: https://arxiv.org/abs/2010.11929
-- Code: https://github.com/lucidrains/vit-pytorch/blob/main/vit_pytorch/vit_1d.py
+Purpose
+-------
+Define transformer-based temporal ECG encoders supported by ECGCLIP but not
+used for the default paper representation.
+
+Method
+------
+Patch a 1D waveform, add positional embeddings, apply attention/MLP blocks,
+and pool to a record feature.
+
+Inputs
+------
+ECG waveform tensor and ViT patch, width, depth, and head settings.
+
+Outputs
+-------
+Record-level transformer features for the ECG projection head.
+
+Paper parameters
+----------------
+Architecture presets are optional sensitivity helpers; the formal training
+config selects ecgfounder.
+
+Shapes and meaning
+------------------
+Waveforms are [B,12,T], patch tokens [B,patches,width], and pooled output
+[B,width] before projection.
 """
 import torch
 import torch.nn as nn

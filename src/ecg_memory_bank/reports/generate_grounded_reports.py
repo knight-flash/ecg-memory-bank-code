@@ -1,3 +1,35 @@
+"""Report experiment stage orchestrator.
+
+Purpose
+-------
+Run preparation, GLM inference, and metric evaluation for a single ECG-
+Grounding backend.
+
+Method
+------
+Dispatch label-context, subset, request, inference, and evaluation scripts in
+a fixed sequence; model and paths are passed through CLI args.
+
+Inputs
+------
+External benchmark subset and run directory plus MIMIC embedding/feature
+configuration and API access.
+
+Outputs
+-------
+External requests, raw/parsed responses, metrics, and run summary.
+
+Paper parameters
+----------------
+Top-level paper runner supplies all 2381 cases, K=5, GLM-4.6 or GLM-5,
+thinking enabled, max_tokens=8192.
+
+Shapes and meaning
+------------------
+One run produces paired RAG/No-RAG records for Q cases; per-label scores form
+a [Q,C] matrix.
+"""
+
 from __future__ import annotations
 
 import argparse

@@ -1,15 +1,35 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Dedicated MIMIC external evaluation for the APE-to-MIMIC 18-label experiment.
+"""External MIMIC prototype assessment.
 
-This script reuses the trained APE checkpoints and evaluates them on:
+Purpose
+-------
+Evaluate a trained HEEDB prototype head on MIMIC using compatible labels and
+case anchors.
 
-1. the full external MIMIC set
-2. a MIMIC aligned-test subset generated with the same split logic as
-   `mimic18_confidence_weighted_multilabel.py`
+Method
+------
+Load an existing HEEDB checkpoint and frozen MIMIC vectors, align labels,
+evaluate the selected split, and export confidence intervals.
 
-Both views export split-specific per-class CSVs and bootstrap CI files.
+Inputs
+------
+Trained prototype checkpoint, MIMIC embedding/metadata, HEEDB label
+configuration, and output root.
+
+Outputs
+-------
+External AUROC/per-class tables and traceability export for external transfer.
+
+Paper parameters
+----------------
+No retraining occurs; cohort selection and bootstrap counts are controlled by
+the invoking run.
+
+Shapes and meaning
+------------------
+Query inputs are [Q,D] and mapped class scores [Q,C]; anchors remain HEEDB
+training records.
 """
 
 from __future__ import annotations

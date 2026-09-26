@@ -10,6 +10,26 @@ from pathlib import Path
 
 
 class ReleaseContentsTests(unittest.TestCase):
+    def test_substantive_modules_explain_their_data_contracts(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        sections = (
+            "Purpose\n-------",
+            "Method\n------",
+            "Inputs\n------",
+            "Outputs\n-------",
+            "Paper parameters\n----------------",
+            "Shapes and meaning\n------------------",
+        )
+        for directory in (root / "src", root / "scripts"):
+            for path in directory.rglob("*.py"):
+                if path.name == "__init__.py":
+                    continue
+                docstring = ast.get_docstring(ast.parse(path.read_text(encoding="utf-8")))
+                self.assertIsNotNone(docstring, str(path))
+                for section in sections:
+                    self.assertIn(section, docstring, str(path))
+                self.assertGreaterEqual(len(docstring.splitlines()), 24, str(path))
+
     def test_source_comments_are_consistent(self) -> None:
         root = Path(__file__).resolve().parents[1]
         code_like = re.compile(
@@ -59,6 +79,8 @@ class ReleaseContentsTests(unittest.TestCase):
         forbidden = {".pt", ".pth", ".npy", ".npz", ".jsonl", ".png", ".pdf", ".log", ".netrc", ".pyc"}
         for path in root.rglob("*"):
             if path.is_file():
+                if ".git" in path.relative_to(root).parts:
+                    continue
                 self.assertNotIn(path.suffix.lower(), forbidden, str(path))
                 self.assertNotIn("outputs", path.relative_to(root).parts, str(path))
                 if path.suffix == ".py" and path.relative_to(root).parts[0] in {"src", "scripts"}:

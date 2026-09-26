@@ -1,3 +1,36 @@
+"""Reader-study report assembly.
+
+Purpose
+-------
+Turn already computed paired-score, confidence-interval, and agreement tables
+into a human-readable analysis report.
+
+Method
+------
+Load metric JSON/CSV artifacts, format paired differences and reliability
+tables, and render the final Markdown summary.
+
+Inputs
+------
+Reader-study outputs from decoding, case-clustered CI, and agreement scripts
+under ``BASE`` (currently a fixed path relative to the working directory).
+
+Outputs
+-------
+``BASE/analysis_report.md``. Set ``BASE`` to the intended analysis directory
+before running this historical report assembler.
+
+Paper parameters
+----------------
+This step rephrases finalized estimates; it does not resample cases or modify
+ratings.
+
+Shapes and meaning
+------------------
+Each displayed effect remains RAG-minus-No-RAG on the original 1–5 scale, with
+the outcome-specific available pair count.
+"""
+
 from __future__ import annotations
 
 import csv

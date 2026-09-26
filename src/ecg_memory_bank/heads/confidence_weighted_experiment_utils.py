@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Prototype branch training utilities.
+
+Purpose
+-------
+Share three-branch training, checkpoint restoration, score evaluation, and
+manifest export across paper prototype tasks.
+
+Method
+------
+Train traditional, signed single-label, and full-bank linear aggregators on
+identical prepared datasets, then collect AUROC and case-link artifacts.
+
+Inputs
+------
+Prepared ECG embeddings, binary label matrices, class prototype plan, loaders,
+optimizer/training options.
+
+Outputs
+-------
+External branch checkpoints, per-class/aggregate metrics, prototype reports,
+and CI inputs.
+
+Paper parameters
+----------------
+Formal wrappers provide budget, learning schedule, seed and bootstrap count;
+helper functions do not choose the study cohort.
+
+Shapes and meaning
+------------------
+Vectors are [N,D], labels [N,C], prototype responses [N,P], and branch scores
+[N,C].
+"""
+
+
 from __future__ import annotations
 
 import json

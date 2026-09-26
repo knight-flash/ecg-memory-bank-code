@@ -1,3 +1,35 @@
+"""Rule-based incomplete-response salvage.
+
+Purpose
+-------
+Repair missing structured fields from already generated response text without
+new clinical generation.
+
+Method
+------
+Extract explicit diagnosis labels and scores from available answer/reasoning
+fragments and record every repaired field.
+
+Inputs
+------
+Existing raw/parsed GLM responses, an incomplete-case manifest, and run
+directory.
+
+Outputs
+-------
+Updated external parsed records and salvage report.
+
+Paper parameters
+----------------
+Salvage rules are deterministic; they do not call another model or modify the
+retrieval set.
+
+Shapes and meaning
+------------------
+One repaired case retains its original ID; recovered labels/scores occupy the
+same C-column candidate space.
+"""
+
 from __future__ import annotations
 
 import argparse

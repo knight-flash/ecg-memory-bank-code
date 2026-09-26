@@ -1,7 +1,35 @@
-"""Train the paper's ECG–text representation from external HEEDB inputs.
+"""ECG–text encoder training.
 
-Run with ``torchrun --nproc_per_node=N``. Weights and data stay outside the
-source archive.
+Purpose
+-------
+Train the CLIP-ECGFounder representation used as the frozen feature extractor
+in the paper.
+
+Method
+------
+Launch distributed HEEDB report-pair training, freeze configured MedCPT
+layers, optimize bidirectional contrastive loss, and save encoder/full-model
+weights externally.
+
+Inputs
+------
+External indexed HEEDB train/validation CSVs, YAML network/trainer settings,
+and a local MedCPT model directory.
+
+Outputs
+-------
+Checkpoints and optional W&B logs under the required external output
+directory; the code archive contains no weights.
+
+Paper parameters
+----------------
+The supplied paper configuration uses 12 leads, 5000 samples, batch size 128,
+3 epochs, AdamW at 1e-4, six frozen text layers, and seed 42.
+
+Shapes and meaning
+------------------
+ECG batches are [B,12,5000]; text token IDs are [B,L]. Both branches project
+to 256-dimensional features for contrastive comparison.
 """
 
 from __future__ import annotations

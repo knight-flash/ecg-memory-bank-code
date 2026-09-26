@@ -1,4 +1,36 @@
-"""Run the original dataset-specific ECGCLIP extraction logic with external paths."""
+"""Supported embedding extraction runner.
+
+Purpose
+-------
+Dispatch the original HEEDB, MIMIC, or CODE-15 ECGCLIP extraction
+implementation without storing data in Git.
+
+Method
+------
+Validate external config/data/MedCPT paths and output location, set local
+imports, and launch distributed HEEDB or single-device MIMIC/CODE-15
+extraction.
+
+Inputs
+------
+Dataset name, model YAML with external checkpoint, MedCPT directory, index
+CSV, dataset-specific raw root, and external output directory.
+
+Outputs
+-------
+External embedding tensors, aligned metadata, progress files and extraction
+summaries; dry-run only prints the command.
+
+Paper parameters
+----------------
+Default HEEDB worker count is six; batch/GPU flags affect throughput and do
+not change the frozen checkpoint or target preprocessing.
+
+Shapes and meaning
+------------------
+Input ECG records are prepared as [12,5000]; output ECGCLIP vectors are
+[N,256] with row i associated with metadata row i.
+"""
 
 from __future__ import annotations
 

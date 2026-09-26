@@ -1,7 +1,34 @@
-"""Extract frozen record-level ECG embeddings with verified row-to-case links.
+"""Frozen ECG embedding extraction adapter.
 
-Input waveforms are an external NumPy array shaped [records, 12, samples].
-Dataset-specific waveform loading and preprocessing must be completed upstream.
+Purpose
+-------
+Convert already preprocessed ECG arrays into aligned, L2-normalized record
+embeddings.
+
+Method
+------
+Load the full ECGCLIP checkpoint, strip optional DDP prefixes, run inference
+in batches, and write an embedding tensor with a case-ID manifest.
+
+Inputs
+------
+External waveform NumPy array, metadata CSV with unique record IDs,
+checkpoint, model YAML, and MedCPT model directory.
+
+Outputs
+-------
+External ecg_embeddings.npy, ecg_embeddings.pt, and embedding_record_ids.csv;
+no generated data is stored in source.
+
+Paper parameters
+----------------
+batch-size controls memory usage; device selects CPU/GPU. Preprocessing must
+match the dataset-specific extraction protocol before this adapter.
+
+Shapes and meaning
+------------------
+Waveforms are [N,12,T], model input batches [B,12,T], and output features
+[N,256]. Manifest row i identifies embedding row i.
 """
 
 from __future__ import annotations

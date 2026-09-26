@@ -1,3 +1,32 @@
+"""Report run artifact layout.
+
+Purpose
+-------
+Keep request, response, parsed output, and evaluation files in consistent run
+directories.
+
+Method
+------
+Resolve per-mode paths and load JSON/JSONL records with stable UTF-8 handling.
+
+Inputs
+------
+External run directory, generation mode, and JSONL files.
+
+Outputs
+-------
+Path maps and parsed record lists; directory creation occurs only when called.
+
+Paper parameters
+----------------
+The two paired modes are rag and zero; run names distinguish GLM backends.
+
+Shapes and meaning
+------------------
+Each record corresponds to one ECG case in one generation mode, keyed by its
+custom ID.
+"""
+
 from __future__ import annotations
 
 import json

@@ -1,12 +1,34 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-L3 full-label fixed-prototype ProtoPNet experiment — MIMIC-only self-training.
+"""Full-label MIMIC prototype experiment.
 
-This script trains and evaluates a ProtoPNet entirely on MIMIC data:
-  - MIMIC full → 80/10/10 train/val/test split (seed=42)
-  - No external (HEEDB) evaluation.
-  - Uses the same CSV-driven 120-class label protocol as the HEEDB experiment.
+Purpose
+-------
+Train and assess the paper's locally trained MIMIC diagnostic prototype head.
+
+Method
+------
+Select the curated MIMIC label space, create 80/10/10 train/validation/test
+rows, allocate prototypes by support, and evaluate the best projected model.
+
+Inputs
+------
+MIMIC frozen ECG tensor, corrected metadata, and L3 label-config CSV.
+
+Outputs
+-------
+External summary, class AUROC, bootstrap intervals, checkpoint, and prototype-
+to-case audit data.
+
+Paper parameters
+----------------
+Formal runner fixes 3000 prototype budget, 1–30 per class, seed=42 and 1000
+bootstrap resamples; batch/epoch controls are operational.
+
+Shapes and meaning
+------------------
+Inputs are [N,D]; evaluated multilabel scores are [Q,101]; prototype vectors
+are [P,D] and each projection links to a positive training ECG.
 """
 
 from __future__ import annotations

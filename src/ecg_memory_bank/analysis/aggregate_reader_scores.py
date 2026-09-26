@@ -1,3 +1,35 @@
+"""Reader score normalization.
+
+Purpose
+-------
+Combine blinded per-reader JSON ratings into a consistent case-by-reader score
+dataset.
+
+Method
+------
+Detect rating batch IDs, normalize score keys for GLM-5 RAG/No-RAG, verify
+completeness, and write aggregate tables.
+
+Inputs
+------
+External blinded score JSON files and A/B decoding metadata from the reader-
+study workflow.
+
+Outputs
+-------
+External normalized case/label rating records and completeness summaries.
+
+Paper parameters
+----------------
+Expected study size is four readers across 100 paired ECG cases; this step
+does not bootstrap or score model diagnoses.
+
+Shapes and meaning
+------------------
+One rating row identifies case, reader, mode, and dimension; each 1–5 score is
+ordinal, and missing cells are preserved as missing.
+"""
+
 from __future__ import annotations
 
 import argparse

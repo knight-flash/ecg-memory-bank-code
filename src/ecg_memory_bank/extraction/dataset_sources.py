@@ -1,4 +1,34 @@
-"""Original HEEDB and MIMIC dataset readers retained for extraction parity."""
+"""Original waveform readers for extraction.
+
+Purpose
+-------
+Preserve the HEEDB and MIMIC readers used by the historical dataset-specific
+embedding jobs.
+
+Method
+------
+Load indexed paths, normalize globally, resample, apply 60 Hz notch and 0.5–50
+Hz filtering, and align length; preserve historical read-error behavior.
+
+Inputs
+------
+HEEDB indexed MAT/HEA CSV or MIMIC index plus raw waveform root.
+
+Outputs
+-------
+Per-record dictionaries containing ECG tensor, report text, and available
+labels or case IDs.
+
+Paper parameters
+----------------
+Target sampling rate is 500 Hz and window length 5000; source data and
+filesystem paths remain external.
+
+Shapes and meaning
+------------------
+Each ecg value is [12,5000] float32. A historical read error may substitute
+the next record, which requires separate provenance audit.
+"""
 
 from __future__ import annotations
 

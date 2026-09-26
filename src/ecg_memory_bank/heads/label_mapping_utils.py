@@ -1,6 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Prototype task label harmonization.
+
+Purpose
+-------
+Resolve raw diagnosis text into the canonical hierarchy used by prototype
+tasks.
+
+Method
+------
+Normalize aliases, parse multilabel text fields, and map labels to categories
+and L1/L2/L3 identifiers.
+
+Inputs
+------
+Static label-mapping CSV and per-record raw text fields.
+
+Outputs
+-------
+Canonical labels and hierarchy lookup maps consumed by head data loaders.
+
+Paper parameters
+----------------
+Mapping is deterministic and has no trainable parameters; the chosen label
+configuration defines C.
+
+Shapes and meaning
+------------------
+One ECG may activate multiple columns in [N,C]; a positive entry indicates a
+mapped diagnosis.
+"""
+
+
 from __future__ import annotations
 
 import ast

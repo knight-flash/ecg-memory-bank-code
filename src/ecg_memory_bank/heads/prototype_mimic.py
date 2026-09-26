@@ -1,20 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Traditional prototype-network baseline for MIMIC ECG embeddings.
+"""MIMIC ProtoPNet base implementation.
 
-This script is adapted from `mimic_finetune_solver_only.py`, but replaces
-dynamic split/prune evolution with a classic fixed-prototype lifecycle:
+Purpose
+-------
+Provide frozen-embedding MIMIC data preparation, prototype layers, training,
+and evaluation for the full-label wrapper.
 
-1. Fixed per-class prototype allocation.
-2. Prototype initialization from class centroids / KMeans.
-3. Alternating optimization:
-   - global optimization of adapter + prototypes + classifier
-   - periodic projection ("push") onto nearest real positive samples
-   - short convex optimization of the last layer only
+Method
+------
+Build labels and splits, initialize class-positive prototypes, optimize
+classification plus cluster/separation terms, and project prototypes to
+training ECGs.
 
-The backbone is not retrained from raw ECG. Instead, we work on top of the
-precomputed ECG embeddings already used by the rest of this folder.
+Inputs
+------
+MIMIC embeddings and aligned metadata with diagnostic labels and external
+output paths.
+
+Outputs
+-------
+External checkpoints, macro/per-class AUROC, and prototype case-link records.
+
+Paper parameters
+----------------
+Base defaults are historical; the full-label wrapper and paper runner supply
+the formal seed and prototype plan.
+
+Shapes and meaning
+------------------
+Vector matrix is [N,D], labels [N,C], prototype bank [P,D], and predictions
+[N,C].
 """
 
 import argparse

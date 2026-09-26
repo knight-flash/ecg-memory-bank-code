@@ -1,5 +1,36 @@
 #!/usr/bin/env python3
-"""Merge rerun low fractions with unchanged legacy anchor scenarios."""
+"""Historical nested-rerun merge.
+
+Purpose
+-------
+Combine the low-fraction nested rerun with unchanged audited higher-fraction
+anchor results.
+
+Method
+------
+Select new rows below a cutoff and legacy rows at or above it, copying
+referenced scenario artifacts into one analysis root.
+
+Inputs
+------
+Two external scale-benchmark directories, a summary filename, and cutoff
+fraction.
+
+Outputs
+-------
+Merged external summary and provenance report; source output folders are not
+modified.
+
+Paper parameters
+----------------
+Cutoff defaults to 5%; this is a result-reconciliation utility, not a new
+sampling protocol.
+
+Shapes and meaning
+------------------
+One summary row represents one memory fraction; merged fractions must remain
+ordered and distinct.
+"""
 
 from __future__ import annotations
 

@@ -1,4 +1,34 @@
-"""Recompute HEEDB L3 support quartiles from the external full-memory metadata."""
+"""HEEDB support-tier construction.
+
+Purpose
+-------
+Recompute the full-memory support counts used to group 120 canonical L3
+diagnoses.
+
+Method
+------
+Count each mapped diagnosis at most once per record, sort by count and label,
+and assign four 30-label quartiles.
+
+Inputs
+------
+HEEDB full-memory metadata CSV, label column name, and static label mapping
+CSV.
+
+Outputs
+-------
+External CSV with mapped_label, count, and support_tier.
+
+Paper parameters
+----------------
+Exactly 120 mapped labels; tier order is Tail, Low-mid, Mid, Head with
+deterministic tie-breaking.
+
+Shapes and meaning
+------------------
+Count means positive memory records per diagnosis; each support tier contains
+30 labels before the fixed-114 intersection.
+"""
 
 from __future__ import annotations
 

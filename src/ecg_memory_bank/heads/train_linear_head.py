@@ -1,11 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Unified embedding-level linear baseline for Prototype_all experiments.
+"""Matched score-only linear controls.
 
-This script adds a plain `nn.Linear` baseline on top of ECG embeddings and
-keeps dataset preparation as close as possible to the existing ProtoPNet
-wrappers in this folder.
+Purpose
+-------
+Train plain linear diagnostic heads on the same frozen vectors, labels, and
+splits as the paper prototype tasks.
+
+Method
+------
+Dispatch HEEDB, MIMIC, CODE-15 six-label, or Chagas preparation, fit a linear
+layer with BCE, and compute matched AUROC and CI.
+
+Inputs
+------
+External embedding tensors and aligned metadata/labels for the selected task;
+no prototype bank.
+
+Outputs
+-------
+External weights, score arrays, per-class/macro AUROC, and confidence
+intervals; no case-link support is produced.
+
+Paper parameters
+----------------
+Formal runner accepts four training tasks, seed=42, and 1000 bootstrap draws;
+learning rate/scheduler affect optimization only.
+
+Shapes and meaning
+------------------
+Inputs are [N,D]; a weight matrix [C,D] and bias [C] produce class logits or
+scores [N,C]. No output identifies supporting cases.
 """
 
 from __future__ import annotations

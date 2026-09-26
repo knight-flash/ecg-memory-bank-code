@@ -1,3 +1,35 @@
+"""Hosted DeepSeek reasoning evaluation.
+
+Purpose
+-------
+Execute prepared judge requests against the authorized Volcengine OpenAI-
+compatible endpoint.
+
+Method
+------
+Preserve request model/body settings, send nonstreaming calls with
+retry/resume, and collect case-keyed responses.
+
+Inputs
+------
+Prepared judge JSONL, external API credential, endpoint model/deployment name,
+and output paths.
+
+Outputs
+-------
+External judge response JSONL plus transport and retry summaries.
+
+Paper parameters
+----------------
+Formal results label the model deepseek-ai/DeepSeek-V3.1-Terminus; service
+alias is deepseek-v3.1, thinking off, max_tokens=8192.
+
+Shapes and meaning
+------------------
+One response holds criterion scores for one report; judge values support
+relative configuration comparison, not AUROC.
+"""
+
 from __future__ import annotations
 
 import argparse

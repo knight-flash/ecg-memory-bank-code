@@ -1,3 +1,34 @@
+"""Deterministic MIMIC head split helper.
+
+Purpose
+-------
+Return train, validation, and test row indices for embedding-level MIMIC head
+experiments.
+
+Method
+------
+Apply two seeded record-index splits according to requested train and
+validation proportions.
+
+Inputs
+------
+Number of rows, train_ratio, val_ratio, and seed.
+
+Outputs
+-------
+Three disjoint NumPy index arrays; no files are written.
+
+Paper parameters
+----------------
+Defaults are 80% train, 10% validation, 10% test with seed=42; this helper
+splits rows, not MIMIC retrieval subjects.
+
+Shapes and meaning
+------------------
+Indices are 1-D int64 arrays whose concatenation covers N input rows without
+overlap.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

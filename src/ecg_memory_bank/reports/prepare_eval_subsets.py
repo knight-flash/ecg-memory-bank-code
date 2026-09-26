@@ -1,3 +1,34 @@
+"""Subject-disjoint report retrieval split.
+
+Purpose
+-------
+Build the fixed query and active-gallery CSVs for ECG-Grounding report
+generation.
+
+Method
+------
+Select the supplied benchmark query rows, remove every query subject from the
+gallery, and preserve row-to-embedding keys.
+
+Inputs
+------
+MIMIC metadata with study_id and subject_id plus benchmark query-subset CSV.
+
+Outputs
+-------
+External query_subset.csv, gallery_subset.csv, and split summary.
+
+Paper parameters
+----------------
+Formal run uses all 2381 queries and seed=42; random self-split fallback is
+outside the formal benchmark path.
+
+Shapes and meaning
+------------------
+The query set has Q=2381 rows; the gallery has no subject_id present among
+query rows.
+"""
+
 from __future__ import annotations
 
 import argparse

@@ -1,10 +1,34 @@
 #!/usr/bin/env python3
-"""Export Q_aff masks for the existing HEEDB case-withdrawal scenarios.
+"""Withdrawal membership audit.
 
-The original withdrawal outputs retain post-withdrawal voting scores but not
-the baseline top-K member identities.  This script performs one exact baseline
-retrieval pass and records, for each scenario, which fixed holdout queries had
-at least one subsequently withdrawn case in their pre-withdrawal top-K.
+Purpose
+-------
+Recover the exact baseline query and active-memory memberships used by the
+withdrawal experiment.
+
+Method
+------
+Rebuild the split from run settings and export patient/record membership masks
+for downstream influence analysis.
+
+Inputs
+------
+External withdrawal run manifest plus HEEDB metadata, embeddings, and ID
+columns.
+
+Outputs
+-------
+External membership arrays and audit metadata keyed by withdrawal scenario.
+
+Paper parameters
+----------------
+Uses the same fixed query years, patient fractions, historical thresholds, and
+seed as active_memory_withdrawal.py.
+
+Shapes and meaning
+------------------
+Membership masks have one value per candidate record or query; they identify
+removed support cases, not model predictions.
 """
 
 from __future__ import annotations

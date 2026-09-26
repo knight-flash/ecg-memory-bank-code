@@ -1,4 +1,35 @@
-"""Distributed ECG–text contrastive training loop."""
+"""Distributed contrastive training loop.
+
+Purpose
+-------
+Train and validate the ECGCLIP model across multiple GPUs while recording
+checkpoint provenance.
+
+Method
+------
+Use distributed samplers, AMP, AdamW and learning-rate scheduling, aggregate
+contrastive metrics, and periodically save the encoder and full model.
+
+Inputs
+------
+Model, optimizer, HEEDB datasets, trainer YAML values, and evaluation
+configuration.
+
+Outputs
+-------
+External model checkpoints plus loss and retrieval-accuracy summaries; no data
+is written on import.
+
+Paper parameters
+----------------
+batch_size, max_epochs, checkpoint_interval, num_workers, and output path come
+from config; each rank handles a sampler shard.
+
+Shapes and meaning
+------------------
+Per-rank ECG batches are [B,12,5000]; projected paired features are [B,256];
+similarity matrices for contrastive loss are [B,B].
+"""
 
 import os
 from typing import Type

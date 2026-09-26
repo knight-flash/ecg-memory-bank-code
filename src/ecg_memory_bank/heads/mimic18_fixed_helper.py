@@ -1,7 +1,35 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Shared helper for Finaltabel fixed-prototype MIMIC 18-label wrappers.
+"""Prototype label and budget helpers.
+
+Purpose
+-------
+Provide support-aware label selection and prototype-allocation functions
+reused by the paper's full-label heads.
+
+Method
+------
+Build task payloads, count positive training examples, allocate bounded
+prototype counts, and standardize evaluation/reporting.
+
+Inputs
+------
+Label/alias configurations, target matrices, class support counts, and model
+predictions.
+
+Outputs
+-------
+Label manifests, per-class metrics, and a class-to-prototype count plan.
+
+Paper parameters
+----------------
+Formal wrappers set total budget=3000, min=1 and max=30 per active class;
+allocation uses a fixed seed when sampling.
+
+Shapes and meaning
+------------------
+Targets are [N,C], prototype counts are length C, and their sum is bounded by
+the task budget.
 """
 
 from __future__ import annotations

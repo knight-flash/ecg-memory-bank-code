@@ -1,7 +1,35 @@
-"""Run a paper experiment with explicit external inputs and output location.
+"""Supported paper experiment runner.
 
-The JSON config contains ``args`` (CLI flag names without leading dashes),
-``input_files`` (paths to check), and, for reporting, ``paths``. See README.
+Purpose
+-------
+Expose one command interface for the manuscript's retrieval, prototype,
+report, judge, and reader analyses.
+
+Method
+------
+Load a JSON config, reject overrides of locked paper parameters, require
+outputs outside the archive, and dispatch the appropriate source script and
+postprocessing chain.
+
+Inputs
+------
+Task name, JSON with external data paths and task flags, output directory, and
+optional dry-run flag.
+
+Outputs
+-------
+External run directories containing result artifacts; dry-run prints commands
+without reading data or calling APIs.
+
+Paper parameters
+----------------
+Locks fractions, seed, K, MIMIC subject split, Chagas cohort sizes, prototype
+budget and report cohort/model settings by task.
+
+Shapes and meaning
+------------------
+Inputs include vectors [N,D], labels [N,C], and JSONL reports; task-specific
+outputs range from [Q,C] scores to CI and audit tables.
 """
 
 from __future__ import annotations

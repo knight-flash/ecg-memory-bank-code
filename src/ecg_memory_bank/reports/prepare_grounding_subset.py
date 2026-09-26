@@ -1,3 +1,35 @@
+"""ECG-Grounding cohort matching.
+
+Purpose
+-------
+Match released ECG-Grounding cases to MIMIC metadata and feature records
+before report evaluation.
+
+Method
+------
+Normalize case/study IDs, deduplicate benchmark entries, verify matching
+metadata and structured features, then write a query selector.
+
+Inputs
+------
+Released grounding JSON, corrected MIMIC metadata CSV, and external feature
+root.
+
+Outputs
+-------
+External query-subset CSV plus a selection/audit report.
+
+Paper parameters
+----------------
+The formal runner requires all 2381 benchmark cases; silently dropping
+unmatched cases is not accepted.
+
+Shapes and meaning
+------------------
+Each subset row is one query ECG; subject_id later excludes all records from
+the same subject from active memory.
+"""
+
 from __future__ import annotations
 
 import argparse

@@ -1,7 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Signed-weight retrieval ProtoPNet helper for the paper's prototype tasks.
+"""Shared prototype model components.
+
+Purpose
+-------
+Implement the cosine-similarity prototype bank and three score-aggregation
+variants used by CODE-15 and related tasks.
+
+Method
+------
+Allocate positive-class prototypes, transform embeddings, compute signed
+similarities, project anchors, and train with
+classification/cluster/separation losses.
+
+Inputs
+------
+Frozen ECG vectors, binary target matrix, class prototype plan, and optimizer
+settings from a task wrapper.
+
+Outputs
+-------
+Model objects, class scores, projection indices, and training/evaluation
+summaries.
+
+Paper parameters
+----------------
+Prototype count and regularization settings are set by the formal task; only
+projected real cases can serve as audit anchors.
+
+Shapes and meaning
+------------------
+Input is [N,D], prototypes [P,D], similarities [N,P], and class scores [N,C].
+Signed contributions can support or suppress a logit.
 """
 
 from __future__ import annotations

@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Retrieval metrics and indexing.
+
+Purpose
+-------
+Provide shared embedding loading, strict row alignment, FAISS indexing,
+multilabel voting, and classification metrics.
+
+Method
+------
+Normalize finite nonzero vectors, search with inner-product similarity, map
+labels into hierarchy levels, and calculate query/class aggregates.
+
+Inputs
+------
+Embedding tensors, aligned metadata DataFrames, label hierarchy maps, and
+top-K neighbor arrays.
+
+Outputs
+-------
+NumPy arrays, DataFrames, index objects, per-query metrics, and AUROC
+summaries; no files are written on import.
+
+Paper parameters
+----------------
+K and class lists are supplied by callers; the normalizer rejects invalid
+vectors or metadata length mismatch rather than truncating.
+
+Shapes and meaning
+------------------
+Vectors are [N,D] float32; neighbor IDs [Q,K]; multilabel targets and vote
+scores [Q,C]. AUROC treats each class one-vs-rest.
+"""
+
+
 from __future__ import annotations
 
 import math

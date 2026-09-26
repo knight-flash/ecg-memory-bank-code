@@ -1,8 +1,34 @@
 #!/usr/bin/env python3
-"""Compute influence leakage and collateral-ratio audit metrics.
+"""Withdrawal influence metrics.
 
-This is a post-processing tool: it reads saved withdrawal voting scores and
-baseline-membership masks. It never trains or encodes a model.
+Purpose
+-------
+Quantify where removed support cases altered retrieval-voting outputs and
+whether removed cases persisted.
+
+Method
+------
+Compare pre/post score matrices and baseline top-K membership, then summarize
+affected queries, score changes, Jaccard changes, and collateral effects.
+
+Inputs
+------
+External withdrawal scenario artifacts, membership arrays, label-score
+matrices, and optional collateral specification.
+
+Outputs
+-------
+External influence summaries with optional 95% bootstrap intervals.
+
+Paper parameters
+----------------
+Bootstrap defaults to 1000 resamples with seed=42; labels and queries remain
+fixed across compared states.
+
+Shapes and meaning
+------------------
+Score matrices are [Q,C] and membership is query-level; a changed label set
+means at least one score crossed the positive-vote threshold.
 """
 
 from __future__ import annotations

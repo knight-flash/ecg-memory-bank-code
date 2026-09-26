@@ -1,6 +1,41 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""HEEDB active-memory withdrawal.
+
+Purpose
+-------
+Evaluate patient-linked and historical-record removal from the active HEEDB
+memory with a fixed 2022 query holdout.
+
+Method
+------
+Construct the baseline memory, remove the selected patient or year cohort,
+rebuild retrieval, and measure residual membership plus local changes in votes
+and labels.
+
+Inputs
+------
+HEEDB train, validation, and test tensors with aligned metadata, patient IDs,
+record IDs, acquisition years, and L3 label mapping.
+
+Outputs
+-------
+External baseline and post-withdrawal scenario manifests, per-query scores,
+Persistence@K checks, and summary tables.
+
+Paper parameters
+----------------
+Patient fractions are 15%, 30%, 60%, and 90%; historical thresholds are 2010,
+2015, 2018; K=10 and seed=42.
+
+Shapes and meaning
+------------------
+Memory/query arrays are [N,D]/[Q,D]; retrieval indices are [Q,K]. Persistence
+is zero only if no removed record or patient appears after rebuilding.
+"""
+
+
 from __future__ import annotations
 
 import argparse

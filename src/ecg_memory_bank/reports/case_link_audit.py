@@ -1,9 +1,34 @@
 #!/usr/bin/env python3
-"""Audit reported, verifiable RAG case links for the final MIMIC grounding run.
+"""Report-level historical case-link audit.
 
-The audit uses the same ``merged_best_sparse_first`` record-selection view as
-the formal GLM-5 c15 grounding CI.  It measures case links declared in model
-output; it does not claim that a declared case causally changed generation.
+Purpose
+-------
+Measure whether final RAG reports cite valid retrieved case IDs and how
+diagnoses overlap their labels.
+
+Method
+------
+Compare used_evidence_ids against each query's Top-5 results, deduplicate
+links, then summarize coverage, validity, and overlap.
+
+Inputs
+------
+Final GLM-5 RAG parsed records, best-of selection CSV, retrieval rows, and
+case labels.
+
+Outputs
+-------
+External case-level and aggregate traceability tables.
+
+Paper parameters
+----------------
+No bootstrap is used for the complete report set; evidence IDs must match
+retrieved case IDs exactly.
+
+Shapes and meaning
+------------------
+One report may cite 0–5 cases; overlap is report-level co-occurrence, not
+diagnosis-specific causal attribution.
 """
 
 from __future__ import annotations

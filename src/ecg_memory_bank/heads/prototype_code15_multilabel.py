@@ -1,7 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Prototype_all CODE-15 confidence-weighted multilabel ProtoPNet.
+"""CODE-15 six-label prototype experiment.
+
+Purpose
+-------
+Train and evaluate the paper's six-label CODE-15 prototype consumer.
+
+Method
+------
+Select six diagnoses, build aligned record-level targets, allocate/projection-
+anchor prototypes, and report the traditional branch metrics.
+
+Inputs
+------
+CODE-15 embedding and label tensors plus metadata with exam IDs.
+
+Outputs
+-------
+External checkpoint, per-class/macro AUROC, and prototype case-link outputs.
+
+Paper parameters
+----------------
+Formal runner supplies seed=42, budget=3000, 1–30 prototypes per class, and
+1000 bootstrap resamples; source-file defaults are historical.
+
+Shapes and meaning
+------------------
+Input vectors are [N,D], target/score matrices [N,6], and each projected
+prototype is tied to one training record.
 """
 
 from __future__ import annotations

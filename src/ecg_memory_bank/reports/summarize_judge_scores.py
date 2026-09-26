@@ -1,3 +1,34 @@
+"""Judge score parsing and aggregation.
+
+Purpose
+-------
+Normalize often imperfect judge JSON into the paper's reasoning-quality
+criterion table.
+
+Method
+------
+Repair recoverable JSON syntax, extract named rubric criteria, discard failed
+entries, and aggregate valid case scores.
+
+Inputs
+------
+Judge response JSONL, criterion aliases, case IDs, and output directory.
+
+Outputs
+-------
+External clean scores, per-criterion summaries, and group comparison files.
+
+Paper parameters
+----------------
+The same rubric/model is applied to GLM-4.6, GLM-5, RAG, No-RAG and ECG-R1
+baseline where present.
+
+Shapes and meaning
+------------------
+Output is one row per valid judged case and criterion; valid denominators may
+differ by baseline/model.
+"""
+
 from __future__ import annotations
 
 import argparse

@@ -1,3 +1,36 @@
+"""Report experiment configuration.
+
+Purpose
+-------
+Collect dataset paths, label taxonomy, prompt, API, and output settings for
+ECG-Grounding evaluation.
+
+Method
+------
+Build typed configuration objects from external environment paths and fixed
+paper defaults; downstream scripts may override operational run names.
+
+Inputs
+------
+External MIMIC embeddings/metadata, feature root, classification spreadsheet,
+and API key from environment.
+
+Outputs
+-------
+Configuration objects only; no data files or network requests are created on
+import.
+
+Paper parameters
+----------------
+Formal cohort is 2381 cases, retrieval K=5, prompt v2, GLM temperature=0.1,
+max_tokens=8192, thinking enabled.
+
+Shapes and meaning
+------------------
+One query corresponds to one ECG case; label scores are per candidate
+diagnosis in [0,1], not calibrated clinical probabilities.
+"""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field

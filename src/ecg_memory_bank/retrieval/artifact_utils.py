@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Retrieval artifact construction.
+
+Purpose
+-------
+Build audited nested gallery orders and reusable per-query arrays needed for
+paper statistics.
+
+Method
+------
+Preserve anchored fixed-seed memberships, take prefix memories, and derive
+Union Recall, precision/hit, and hierarchy-aware arrays.
+
+Inputs
+------
+Gallery row count and seed, label sets, neighbor indices [Q,K], and query
+targets.
+
+Outputs
+-------
+Nested index arrays, audit dictionaries, and optional per-query CI input
+artifacts.
+
+Paper parameters
+----------------
+Eight fractions and five anchors are controlled by the formal experiment
+entry; seed=42 for paper runs.
+
+Shapes and meaning
+------------------
+A nested prefix means each larger memory contains all prior row IDs; recall is
+true-label coverage across the retrieved set.
+"""
+
+
 from __future__ import annotations
 
 import json

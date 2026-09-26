@@ -1,9 +1,32 @@
-"""Case-clustered inference for the four-reader blinded A/B study.
+"""Case-clustered reader inference.
 
-The estimand remains the pooled mean RAG-minus-No-RAG score difference across
-available paired records. Bootstrap resampling is performed over ECG cases and
-retains all reader records (and, for label-level analyses, all labels) belonging
-to each sampled case. Two-sided sign tests use one mean difference per case.
+Purpose
+-------
+Estimate uncertainty and direction of blinded paired reader-study effects.
+
+Method
+------
+Bootstrap ECG case IDs while keeping all ratings/labels for each sampled case;
+perform two-sided sign tests on one mean difference per case.
+
+Inputs
+------
+Case-level and label-level paired-difference CSVs produced by reader_study.py.
+
+Outputs
+-------
+External JSON/CSV with pooled paired means, 95% intervals, case
+wins/losses/ties, and sign-test p values.
+
+Paper parameters
+----------------
+Exactly 1000 case-clustered percentile resamples with seed=42 for the formal
+paper analysis.
+
+Shapes and meaning
+------------------
+Rows are rater-case or label records; the bootstrap unit is the ECG case, so
+four readers from one case stay together.
 """
 
 from __future__ import annotations

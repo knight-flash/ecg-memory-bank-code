@@ -1,6 +1,43 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""HEEDB broad case addition.
+
+Purpose
+-------
+Evaluate how an expanding active HEEDB case memory changes multilabel
+retrieval diagnosis on a fixed test cohort.
+
+Method
+------
+Build one audited nested order, index each prefix with inner-product FAISS,
+vote over top-K neighbors, and save per-query and per-class evidence for
+fixed-label bootstrap analysis.
+
+Inputs
+------
+Train and test embedding tensors plus aligned metadata CSVs with a unique
+record ID and mapped labels; a static label hierarchy CSV.
+
+Outputs
+-------
+One external output folder per fraction with selected row indices, retrieval
+metrics, voting AUROC inputs, and summary CSV/JSON.
+
+Paper parameters
+----------------
+The paper fixes eight memory fractions from 0.1% to 100%, five anchor
+fractions, K=10, seed=42, and all test queries; batch size only controls
+throughput.
+
+Shapes and meaning
+------------------
+Embeddings are [N,D] float tensors; neighbor indices are [Q,K]. Each label
+score is the fraction of K cases carrying that label; the fixed HEEDB L3 macro
+AUROC uses 114 common labels.
+"""
+
+
 from __future__ import annotations
 
 import argparse

@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""ECGFounder full-memory sensitivity.
+
+Purpose
+-------
+Compare a ResNet ECGFounder representation with the paper's default CLIP-
+ECGFounder on the full HEEDB memory.
+
+Method
+------
+Run the same label mapping, FAISS retrieval, unweighted voting, and recall
+metrics using alternate external embeddings.
+
+Inputs
+------
+ECGFounder memory/query tensors and aligned HEEDB metadata with the shared
+label mapping.
+
+Outputs
+-------
+External full-memory retrieval and AUROC artifacts for the appendix encoder
+comparison.
+
+Paper parameters
+----------------
+The appendix uses the 100% memory, K=10, seed=42; this is not the default
+representation used elsewhere.
+
+Shapes and meaning
+------------------
+Vectors are [N,D] for this encoder; neighbor indices [Q,10]. The full-memory
+macro AUROC uses the available 120 L3 labels.
+"""
+
+
 from __future__ import annotations
 
 import argparse

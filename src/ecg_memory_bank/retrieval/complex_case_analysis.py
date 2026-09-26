@@ -1,6 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Complex-query retrieval characterization.
+
+Purpose
+-------
+Summarize retrieval coverage for ECGs carrying multiple mapped diagnoses.
+
+Method
+------
+Partition saved query artifacts by label burden and compare coverage/precision
+summaries without changing the retrieved memory.
+
+Inputs
+------
+Existing scale-benchmark per-query arrays and scenario summaries.
+
+Outputs
+-------
+External cohort tables describing performance by query complexity.
+
+Paper parameters
+----------------
+Uses the same K and memory state as its input artifacts; no retraining or
+resampling of embeddings.
+
+Shapes and meaning
+------------------
+Query label burden is a count per ECG; subset metrics aggregate only queries
+satisfying the cohort rule.
+"""
+
+
 from __future__ import annotations
 
 import argparse

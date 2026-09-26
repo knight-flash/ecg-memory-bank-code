@@ -1,5 +1,35 @@
 #!/usr/bin/env python3
-"""Extract HEEDB ECGCLIP embeddings with the original distributed pipeline."""
+"""Distributed HEEDB extraction.
+
+Purpose
+-------
+Reproduce the original multi-GPU generation of HEEDB ECG and text embeddings.
+
+Method
+------
+Load the configured full ECGCLIP checkpoint, distribute indexed records,
+checkpoint batches, then merge per-rank vectors and metadata.
+
+Inputs
+------
+External HEEDB indexed CSV with paths, reports, labels and IDs; external model
+YAML, checkpoint, and MedCPT files.
+
+Outputs
+-------
+External HEEDB ECG/text .pt tensors, metadata CSV, progress records, and
+extraction statistics.
+
+Paper parameters
+----------------
+The historical script defaults to six GPU workers and batch size 256; the
+wrapper supplies required paths and keeps output outside this repository.
+
+Shapes and meaning
+------------------
+ECG batches are [B,12,5000], output ECG/text embeddings [N,256], and metadata
+row i is intended to describe vector row i.
+"""
 
 
 import os

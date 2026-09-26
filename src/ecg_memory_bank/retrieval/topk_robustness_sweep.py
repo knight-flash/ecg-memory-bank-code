@@ -1,6 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Retrieval-depth sensitivity.
+
+Purpose
+-------
+Measure full-gallery diagnostic discrimination as the retrieval depth K
+changes.
+
+Method
+------
+Search a fixed gallery/query pair once per requested depth and recompute
+unweighted multilabel vote AUROC.
+
+Inputs
+------
+HEEDB gallery/test embeddings and aligned metadata plus label hierarchy.
+
+Outputs
+-------
+External per-K AUROC summaries and per-class outputs.
+
+Paper parameters
+----------------
+K list is supplied by the sensitivity entry; the paper marks K=10 as its
+operating point.
+
+Shapes and meaning
+------------------
+At depth K, neighbor indices are [Q,K] and scores are [Q,C] vote fractions.
+"""
+
+
 from __future__ import annotations
 
 import argparse

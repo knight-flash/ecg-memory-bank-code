@@ -1,3 +1,34 @@
+"""Reader agreement diagnostics.
+
+Purpose
+-------
+Quantify agreement among the four blinded readers separately from RAG
+treatment effects.
+
+Method
+------
+Decode complete ordinal ratings, compute Krippendorff alpha and two-way
+random-effects ICC for individual and mean readers.
+
+Inputs
+------
+External blinded rating JSONs and the external A/B mapping file.
+
+Outputs
+-------
+External long-form rating CSV and inter-rater reliability summaries.
+
+Paper parameters
+----------------
+Uses the ordered 1–5 rating scale; reliability is descriptive and is not a
+diagnostic AUROC endpoint.
+
+Shapes and meaning
+------------------
+Ratings form a sparse case-by-reader table; ICC(2,1) concerns one reader and
+ICC(2,k) concerns the four-reader mean.
+"""
+
 from __future__ import annotations
 
 import argparse

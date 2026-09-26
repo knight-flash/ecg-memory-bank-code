@@ -1,3 +1,35 @@
+"""Reasoning-judge record assembly.
+
+Purpose
+-------
+Join finalized generation outputs with benchmark ground truth and render one
+shared judge rubric prompt.
+
+Method
+------
+Resolve best-of selection rows, load case truth, format generated text, and
+fill the versioned evaluation template.
+
+Inputs
+------
+External best-of report records, released ground-truth JSONL, and judge prompt
+template.
+
+Outputs
+-------
+Judge request text plus case-ID metadata for subsequent JSONL submission.
+
+Paper parameters
+----------------
+All modes use one rubric and prompt; this module does not choose the model
+deployment.
+
+Shapes and meaning
+------------------
+Each request concerns one ECG case and one generation mode; rubric returns
+multiple named criteria rather than label probabilities.
+"""
+
 from __future__ import annotations
 
 import csv

@@ -1,3 +1,36 @@
+"""Direct GLM report inference.
+
+Purpose
+-------
+Send prepared ECG-Grounding requests to the Zhipu-compatible chat endpoint
+with retry/resume support.
+
+Method
+------
+Batch requests by mode, post them concurrently, parse recoverable responses,
+and preserve case-level raw and structured outputs.
+
+Inputs
+------
+Run-local request JSONL, ZHIPU_API_KEY, selected GLM model, and external
+output directory.
+
+Outputs
+-------
+External raw response JSONL, parsed JSON objects, failure metadata, and
+progress summaries.
+
+Paper parameters
+----------------
+Paper models are GLM-4.6 and GLM-5; temperature=0.1 is embedded in requests,
+thinking enabled, max_tokens=8192.
+
+Shapes and meaning
+------------------
+A response supplies one 0–1 score per candidate label plus text reasoning;
+these are ranking scores, not calibrated probabilities.
+"""
+
 from __future__ import annotations
 
 import argparse

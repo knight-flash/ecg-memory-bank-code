@@ -1,20 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Traditional ProtoPNet-style baseline for HEEDB training with MIMIC external test.
+"""HEEDB ProtoPNet base implementation.
 
-This script is a standalone implementation for the HEEDB -> MIMIC protocol:
+Purpose
+-------
+Provide the embedding-level prototype model, training utilities, and
+HEEDB/MIMIC dataset alignment used by the full-label wrapper.
 
-1. Train / validate / internal test on HEEDB embeddings
-2. External test on full MIMIC embeddings
-3. Keep the traditional baseline features:
-   - fixed per-class prototype allocation
-   - centroid / KMeans initialization
-   - periodic projection to real training samples
-   - last-layer convex optimization
-   - prototype mapping report
-   - activation frequency report
-   - t-SNE visualization
+Method
+------
+Initialize positive-class prototypes, train similarity-to-logit weights,
+periodically project prototypes onto real training ECGs, and evaluate
+internal/external cohorts.
+
+Inputs
+------
+Frozen HEEDB vectors/metadata, mapped labels, optional MIMIC external vectors,
+and output/checkpoint paths.
+
+Outputs
+-------
+External checkpoints, per-class AUROC, prototype-to-case report, and
+activation exports.
+
+Paper parameters
+----------------
+Seed and optimizer settings are supplied by callers; the final wrapper fixes a
+3000 budget with 1–30 prototypes per class.
+
+Shapes and meaning
+------------------
+Embeddings are [N,D], targets [N,C], prototypes [P,D], and class logits [N,C].
+A projected prototype stores a training case ID.
 """
 
 import argparse

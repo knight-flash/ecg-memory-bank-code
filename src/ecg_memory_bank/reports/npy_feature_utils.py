@@ -1,3 +1,34 @@
+"""Structured ECG feature serialization.
+
+Purpose
+-------
+Turn external per-case NumPy feature payloads into compact text-safe summaries
+for LLM prompts.
+
+Method
+------
+Load feature arrays/dictionaries, round numeric values, truncate oversized
+content, and expose representative signal measurements.
+
+Inputs
+------
+FeatureDB .npy or structured payload for one ECG and serialization settings.
+
+Outputs
+-------
+Compact dictionaries or strings added to query/retrieved-case prompt context.
+
+Paper parameters
+----------------
+Target length and decimal places come from configuration; no labels are
+predicted here.
+
+Shapes and meaning
+------------------
+Raw leads may be [12,T]; summarized values describe the ECG signal and are
+separate from embedding vectors [N,D].
+"""
+
 from __future__ import annotations
 
 import math

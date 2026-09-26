@@ -1,3 +1,36 @@
+"""Grounded and ungrounded ECG prompts.
+
+Purpose
+-------
+Build paired prompt messages with the same query data and candidate labels for
+RAG and No-RAG modes.
+
+Method
+------
+Serialize query features and nine diagnostic slots; add Top-5 historical cases
+only for RAG and require ordered structured JSON output.
+
+Inputs
+------
+Case features, retrieved-case labels/report snippets/similarities, candidate
+taxonomy, and prompt configuration.
+
+Outputs
+-------
+System/user chat messages for the GLM backend.
+
+Paper parameters
+----------------
+Paper prompt v2 uses K=5 historical cases, temperature=0.1 downstream, and the
+same label list for both modes.
+
+Shapes and meaning
+------------------
+Each response is one JSON object with reasoning_process,
+diagnoses_by_category, predicted_labels, label_scores, used_evidence_ids,
+abstain, uncertainty_reason.
+"""
+
 from __future__ import annotations
 
 import json

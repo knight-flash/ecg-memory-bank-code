@@ -1,3 +1,34 @@
+"""Prototype-to-case export bridge.
+
+Purpose
+-------
+Connect training-time prototype projections to query case-pack exports.
+
+Method
+------
+Build an anchor candidate bank, choose balanced queries, compute nearest
+prototype/case links, and export showcase records.
+
+Inputs
+------
+Projected prototype indices, training metadata, query embeddings, and class
+labels.
+
+Outputs
+-------
+External example JSON bundles and prototype candidate manifests.
+
+Paper parameters
+----------------
+Sample and top-K limits are passed by the audit caller; no model fitting
+occurs here.
+
+Shapes and meaning
+------------------
+Training/query embeddings have [N,D]/[Q,D]; exported IDs identify concrete ECG
+records, not latent-only prototypes.
+"""
+
 from __future__ import annotations
 
 from pathlib import Path

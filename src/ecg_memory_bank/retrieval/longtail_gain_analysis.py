@@ -1,6 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Rare-diagnosis gain analysis.
+
+Purpose
+-------
+Describe which low-support L3 diagnoses gain most as active memory grows.
+
+Method
+------
+Join per-class AUROC artifacts across case-addition states and rank tail-label
+improvements.
+
+Inputs
+------
+Scale-benchmark per-class outputs and full-memory label support information.
+
+Outputs
+-------
+External tables of tail-class gain and related support summaries.
+
+Paper parameters
+----------------
+Uses fixed scale-benchmark fractions and label mapping; no new model
+parameters.
+
+Shapes and meaning
+------------------
+Each row is a diagnosis; gain is later-minus-earlier AUROC on the same
+label/query cohort.
+"""
+
+
 from __future__ import annotations
 
 import argparse

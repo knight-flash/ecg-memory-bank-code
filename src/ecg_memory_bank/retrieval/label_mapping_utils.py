@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""ECG label hierarchy mapping.
+
+Purpose
+-------
+Normalize report-derived diagnostic strings and resolve their nine-category
+hierarchy and L1/L2/L3 names.
+
+Method
+------
+Parse list or delimited label fields, apply aliases and prefix rules, and
+return canonical labels with hierarchy metadata.
+
+Inputs
+------
+Mapping CSV rows with category, sub_group, raw_label, mapped_label and
+arbitrary metadata label fields.
+
+Outputs
+-------
+Canonical label lists and dictionaries used to construct multilabel target
+matrices.
+
+Paper parameters
+----------------
+No model hyperparameters; mapping behavior is determined by the supplied
+static CSV and normalization rules.
+
+Shapes and meaning
+------------------
+A record can map to several labels. A target matrix [N,C] has 1 for each
+present canonical diagnosis.
+"""
+
+
 from __future__ import annotations
 
 import ast

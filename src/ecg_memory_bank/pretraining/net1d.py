@@ -1,7 +1,33 @@
-"""
-a modularized deep neural network for 1-d signal data, pytorch version
- 
-Shenda Hong, Mar 2020
+"""One-dimensional ECGFounder backbone.
+
+Purpose
+-------
+Provide temporal convolutional blocks and the Net1D ECG encoder used in the
+default representation.
+
+Method
+------
+Stack padded residual 1D convolutions, squeeze-and-excitation blocks, and
+global feature/projection layers.
+
+Inputs
+------
+12-lead waveform batches and architecture widths/depths from the model
+builder.
+
+Outputs
+-------
+Intermediate temporal feature maps and record-level ECG features for ECGCLIP.
+
+Paper parameters
+----------------
+Filter widths and block counts come from the selected ECGFounder network
+configuration; this module has no dataset paths.
+
+Shapes and meaning
+------------------
+Waveform input is [B,12,T]; intermediate maps are [B,channels,time]; the
+builder uses its record features for a 256-D projection.
 """
 
 import numpy as np

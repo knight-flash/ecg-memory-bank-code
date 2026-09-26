@@ -1,5 +1,35 @@
 #!/usr/bin/env python3
-"""Audit set inclusion across fixed-seed gallery-fraction samples."""
+"""Nested-memory membership audit.
+
+Purpose
+-------
+Check that memory fractions form the intended inclusion chain and preserve
+audited anchor memberships.
+
+Method
+------
+Reconstruct the seeded gallery order, compare prefix sets across fractions,
+and report retention/anchor checks.
+
+Inputs
+------
+Full gallery row count, seed, eight fractions, and optional external order
+output path.
+
+Outputs
+-------
+Audit JSON and optional NumPy order file under a supplied external path.
+
+Paper parameters
+----------------
+Paper fractions are 0.1%, 0.5%, 1%, 5%, 10%, 30%, 50%, 100%; anchor states are
+5%, 10%, 30%, 50%, 100%.
+
+Shapes and meaning
+------------------
+A prefix array indexes gallery rows; every previous prefix must be a subset of
+each later prefix.
+"""
 
 from __future__ import annotations
 

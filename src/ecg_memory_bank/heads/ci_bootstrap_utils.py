@@ -1,3 +1,34 @@
+"""Prototype AUROC confidence intervals.
+
+Purpose
+-------
+Compute dataset/task-level and per-class uncertainty for the trained prototype
+and linear heads.
+
+Method
+------
+Resample evaluation rows, skip invalid single-class replicates, and aggregate
+macro/micro or binary AUROC.
+
+Inputs
+------
+Case-level binary labels and model scores from a fixed evaluation split.
+
+Outputs
+-------
+JSON/CSV CI reports written only when called by a task entry.
+
+Paper parameters
+----------------
+Paper runs use 1000 bootstrap draws and seed=42; class denominator is
+determined by the corresponding task.
+
+Shapes and meaning
+------------------
+Label/score arrays are [Q,C], or [Q] for binary Chagas; each resample keeps
+paired label/score rows together.
+"""
+
 from __future__ import annotations
 
 import json

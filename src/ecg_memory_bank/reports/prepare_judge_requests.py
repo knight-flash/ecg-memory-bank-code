@@ -1,3 +1,35 @@
+"""DeepSeek judge request preparation.
+
+Purpose
+-------
+Create retrieval-neutral scoring requests for the finalized report
+configurations.
+
+Method
+------
+Pair report text with ground truth under the same rubric, assign stable custom
+IDs, and write chat request bodies.
+
+Inputs
+------
+Best-of/retry report directories, ECG-Grounding ground truth JSONL, and shared
+judge prompt template.
+
+Outputs
+-------
+External judge requests JSONL and preparation manifest.
+
+Paper parameters
+----------------
+Paper protocol sets temperature=0, thinking disabled, max_tokens=8192
+downstream, and one rubric for all four model/mode groups.
+
+Shapes and meaning
+------------------
+A request is one generated report for one ECG; scores are per rubric
+criterion, not the [Q,C] diagnostic label scores.
+"""
+
 from __future__ import annotations
 
 import argparse

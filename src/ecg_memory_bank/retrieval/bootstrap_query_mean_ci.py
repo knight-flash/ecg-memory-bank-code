@@ -1,5 +1,34 @@
 #!/usr/bin/env python3
-"""Chunked query bootstrap for saved retrieval mean metrics."""
+"""Query-mean bootstrap intervals.
+
+Purpose
+-------
+Generate percentile confidence intervals for query-averaged retrieval coverage
+measures.
+
+Method
+------
+Read saved per-query arrays and resample query rows with a fixed RNG,
+optionally processing in chunks.
+
+Inputs
+------
+Existing retrieval CI arrays under an external result directory.
+
+Outputs
+-------
+External point estimates and 95% interval summaries for requested
+metrics/scenarios.
+
+Paper parameters
+----------------
+Defaults to 1000 query resamples, seed=42; chunk size controls memory only.
+
+Shapes and meaning
+------------------
+Input metric arrays have one scalar per query [Q]; bootstrap samples use query
+indices, not memory cases.
+"""
 
 from __future__ import annotations
 

@@ -1,3 +1,36 @@
+"""Report experiment data alignment.
+
+Purpose
+-------
+Load ECG embeddings, MIMIC metadata, labels, reports, and export metadata for
+report generation.
+
+Method
+------
+Parse heterogeneous embedding payloads, join metadata by available
+identifiers, and build record-level label/text fields.
+
+Inputs
+------
+External .pt/.npy embeddings and CSV metadata with study/subject identifiers
+and report-derived labels.
+
+Outputs
+-------
+Aligned arrays and DataFrames passed to retrieval, prompt building, and
+evaluation.
+
+Paper parameters
+----------------
+Caller chooses label column and split key; no inference hyperparameters are
+set here.
+
+Shapes and meaning
+------------------
+Embedding matrices are [N,D], metadata has N rows, and each row is one ECG
+record with optional multilabel diagnoses.
+"""
+
 from __future__ import annotations
 
 import ast

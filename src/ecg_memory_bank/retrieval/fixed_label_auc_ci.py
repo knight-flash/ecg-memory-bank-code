@@ -1,10 +1,35 @@
 #!/usr/bin/env python3
-"""Bootstrap fixed-label MIMIC scale-benchmark macro AUROC values.
+"""Fixed-label macro AUROC bootstrap.
 
-The scale benchmark's gallery-specific label spaces make its original L3
-macro-AUROC denominators differ by density.  This script evaluates every
-density point on the intersection of its saved L3 label spaces, keeping both
-the label set and the query resampling unit fixed across the entire curve.
+Purpose
+-------
+Estimate broad case-addition macro AUROC and endpoint differences on one
+common label denominator.
+
+Method
+------
+Intersect evaluable classes across all eight memories and reuse paired query
+bootstrap indices for each state.
+
+Inputs
+------
+Eight scale-benchmark summaries and per-scenario AUROC input arrays from the
+same fixed query cohort.
+
+Outputs
+-------
+External per-fraction and endpoint 95% intervals, per-class statistics, and
+the common-label manifest.
+
+Paper parameters
+----------------
+Expected common labels are 114 for HEEDB or 83 for MIMIC; 1000 bootstrap
+resamples and seed=42.
+
+Shapes and meaning
+------------------
+Each scenario supplies target/score arrays [Q,C]; a paired resample draws the
+same query rows at every fraction.
 """
 
 from __future__ import annotations

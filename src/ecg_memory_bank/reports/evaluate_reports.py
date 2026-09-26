@@ -1,3 +1,36 @@
+"""Grounding classification evaluation.
+
+Purpose
+-------
+Evaluate parsed RAG and No-RAG reports against the shared ECG-Grounding
+labels.
+
+Method
+------
+Align candidate score vectors with binary ground truth, calculate per-
+class/macro AUROC and prediction counts, and save case tables.
+
+Inputs
+------
+Finalized parsed reports, candidate label context, ground truth and run
+directory.
+
+Outputs
+-------
+External per-case CSV, per-label AUROC, aggregate JSON, and label-count
+summaries.
+
+Paper parameters
+----------------
+Q=2381 for formal runs; labels lacking both outcome classes are skipped and
+counted; no score calibration is implied.
+
+Shapes and meaning
+------------------
+Ground truth and scores are [Q,C] with C=102 candidates; predicted labels, TP,
+and FP are case-level counts.
+"""
+
 from __future__ import annotations
 
 import argparse

@@ -1,3 +1,35 @@
+"""Fault-tolerant report JSON parsing.
+
+Purpose
+-------
+Recover the required structured diagnosis object from LLM responses without
+generating a new diagnosis.
+
+Method
+------
+Accept strict JSON, fenced JSON, or recoverable embedded JSON; normalize
+completion content and category/label fields.
+
+Inputs
+------
+Raw chat-completion bodies or text for one ECG report.
+
+Outputs
+-------
+Parsed report dictionaries and completeness indicators used by retry and
+evaluation.
+
+Paper parameters
+----------------
+Parsing is rule-based; no LLM calls or adjustable clinical thresholds occur
+here.
+
+Shapes and meaning
+------------------
+label_scores maps candidate labels to [0,1] values; used_evidence_ids are case
+identifiers declared at report level.
+"""
+
 from __future__ import annotations
 
 import json

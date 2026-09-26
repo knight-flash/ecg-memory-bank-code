@@ -1,3 +1,35 @@
+"""Diagnostic candidate taxonomy.
+
+Purpose
+-------
+Build the nine-category candidate vocabulary used in structured ECG report
+generation and scoring.
+
+Method
+------
+Normalize labels, count diagnoses from external metadata, combine manual
+classification and overrides, then emit canonical candidate sets.
+
+Inputs
+------
+Corrected metadata CSV, external label-classification spreadsheet, and static
+override mapping.
+
+Outputs
+-------
+Mapped/unmapped label tables and candidate/category dictionaries.
+
+Paper parameters
+----------------
+The formal ECG-Grounding benchmark supplies 102 candidate labels; generated
+frequency counts are recomputed rather than shipped.
+
+Shapes and meaning
+------------------
+A case may carry multiple labels; category maps determine the slots in
+diagnoses_by_category and columns of [Q,C] score matrices.
+"""
+
 from __future__ import annotations
 
 import ast

@@ -1,3 +1,36 @@
+"""Prototype case audit export.
+
+Purpose
+-------
+Build inspectable ECG/prototype case records from model activations and
+metadata.
+
+Method
+------
+Resolve case identifiers and waveform paths, attach labels and predicted
+contributions, and serialize selected query/prototype examples.
+
+Inputs
+------
+Prototype projection IDs, per-query scores, metadata rows, optional waveform
+path roots.
+
+Outputs
+-------
+External structured JSON case bundles and audit metadata when called by a
+task.
+
+Paper parameters
+----------------
+Top-K or exemplar counts are set by callers; exports preserve provenance
+rather than changing predictions.
+
+Shapes and meaning
+------------------
+Each JSON case is one ECG record; contribution arrays map P prototype
+responses to C diagnosis logits.
+"""
+
 import ast
 import json
 import math

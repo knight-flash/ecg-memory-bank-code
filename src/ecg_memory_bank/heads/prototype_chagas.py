@@ -1,7 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Prototype_all CODE15 Chagas confidence-weighted binary ProtoPNet.
+"""CODE-15 Chagas prototype experiment.
+
+Purpose
+-------
+Train the binary case-linked prototype head evaluated on CODE-15 Chagas cases.
+
+Method
+------
+Use the frozen CODE-15 embeddings and binary labels, make seeded
+train/validation/test splits, and compare traditional, signed-vote, and
+linear-aggregation branches.
+
+Inputs
+------
+CODE-15 embedding tensor, Chagas labels, metadata/exams CSV and external
+output root.
+
+Outputs
+-------
+External branch metrics, CI, checkpoint, prototype plan, and projected case
+anchors.
+
+Paper parameters
+----------------
+Formal runner fixes budget=3000, max 30 per class, seed=42 and bootstrap=1000;
+the standalone file retains smaller historical defaults.
+
+Shapes and meaning
+------------------
+Input targets are [N,1] and prediction scores [N,1]; the projected bank has at
+most 30 anchors for the one target class.
 """
 
 from __future__ import annotations

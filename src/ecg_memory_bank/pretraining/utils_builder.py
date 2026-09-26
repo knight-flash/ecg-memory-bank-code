@@ -1,4 +1,36 @@
-"""ECGCLIP architecture used by the paper's frozen ECG encoder."""
+"""ECGCLIP model construction.
+
+Purpose
+-------
+Define the ECG and MedCPT towers and their projection heads for the frozen
+representation.
+
+Method
+------
+Choose the ECG backbone from YAML, load the external text model, project both
+modalities, and expose ECG-only embedding extraction.
+
+Inputs
+------
+network config containing ecg_model, text_model, feature_dim, projection
+sizes, and external MedCPT path; ECG and token tensors.
+
+Outputs
+-------
+ECGCLIP forward outputs contrastive projections; ext_ecg_emb returns ECG-side
+projected features.
+
+Paper parameters
+----------------
+The paper uses ecgfounder plus medcpt, six frozen text layers, and a
+256-dimensional projection; alternate backbone classes remain implementation
+helpers.
+
+Shapes and meaning
+------------------
+Input ECG is [B,12,T], token IDs/masks [B,L], and projected ECG/text features
+[B,256] before or after normalization by the caller.
+"""
 
 import os
 import torch

@@ -1,6 +1,41 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""MIMIC broad case addition.
+
+Purpose
+-------
+Independently repeat the broad case-memory experiment within MIMIC-IV-ECG
+rather than mixing institutions.
+
+Method
+------
+Split subjects 80/20 once, keep the 159724-record query cohort fixed, and
+evaluate eight nested training-memory prefixes with the same retrieval and
+voting operations.
+
+Inputs
+------
+One MIMIC embedding tensor and aligned metadata CSV with subject_id, record
+ID, and mapped ECG labels; the label hierarchy CSV.
+
+Outputs
+-------
+External per-fraction artifacts, selected memory indices, per-class AUROC
+inputs, and summary CSV/JSON for paired bootstrap CI.
+
+Paper parameters
+----------------
+The paper fixes subject split, seed=42, K=10, eight fractions, and 1000 paired
+query bootstraps; no MIMIC log-linear slope is fitted.
+
+Shapes and meaning
+------------------
+Input vectors are [N,D], query vectors [159724,D], and top-K neighbors [Q,10].
+The fixed macro AUROC intersection contains 83 L3 labels.
+"""
+
+
 from __future__ import annotations
 
 import argparse

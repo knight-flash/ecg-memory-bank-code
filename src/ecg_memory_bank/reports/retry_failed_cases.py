@@ -1,3 +1,34 @@
+"""Report retry repair.
+
+Purpose
+-------
+Retry failed or incomplete GLM outputs under the original or sparse prompt
+strategy.
+
+Method
+------
+Identify JSON/score-incomplete cases, resend only needed requests, and save
+parsed alternatives for best-of selection.
+
+Inputs
+------
+Original RAG/No-RAG run directory, API key, model settings, and failure scope.
+
+Outputs
+-------
+External retry requests, raw/parsed responses, and completeness reports.
+
+Paper parameters
+----------------
+Formal chain uses both retry strategies and the same GLM backend with thinking
+enabled and max_tokens=8192.
+
+Shapes and meaning
+------------------
+Retry rows retain original case IDs; they are candidate replacements for the
+same [Q,C] evaluation records.
+"""
+
 from __future__ import annotations
 
 import argparse

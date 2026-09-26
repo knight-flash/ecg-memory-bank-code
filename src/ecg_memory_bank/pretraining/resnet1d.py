@@ -1,3 +1,34 @@
+"""Alternative one-dimensional ResNet blocks.
+
+Purpose
+-------
+Define ResNet18/34/50/101-style temporal encoders retained by the ECGCLIP
+model builder.
+
+Method
+------
+Compose residual basic or bottleneck blocks over 12-lead signals and expose
+stage features.
+
+Inputs
+------
+ECG waveform tensors and chosen ResNet depth.
+
+Outputs
+-------
+Temporal feature maps for a downstream ECG projection head.
+
+Paper parameters
+----------------
+This is an optional architecture helper; the paper's default encoder selects
+ecgfounder instead.
+
+Shapes and meaning
+------------------
+Inputs are [B,12,T] and outputs are [B,channels,time] before attention
+pooling/projection.
+"""
+
 import torch
 import torch.nn as nn
 

@@ -1,3 +1,36 @@
+"""Blinded paired reader-study decoding.
+
+Purpose
+-------
+Decode A/B ratings and compare the GLM-5 RAG and No-RAG reports on the same
+ECG and reader.
+
+Method
+------
+Apply the external randomized A/B key, normalize seven case-level dimensions
+and label-level ratings, then compute paired differences.
+
+Inputs
+------
+Reader JSON exports, private A/B mapping, optional canonical label map, and
+label support table.
+
+Outputs
+-------
+External decoded long-form ratings, case-level and label-level paired-
+difference CSVs, and summary JSON.
+
+Paper parameters
+----------------
+Design has 100 sampled cases, four licensed readers, seven 1–5 dimensions, and
+paired within-reader comparisons.
+
+Shapes and meaning
+------------------
+Nominally 400 reader-case pairs; each diff is RAG score minus No-RAG score for
+one case/reader/outcome, with missing ratings excluded per outcome.
+"""
+
 from __future__ import annotations
 
 import argparse

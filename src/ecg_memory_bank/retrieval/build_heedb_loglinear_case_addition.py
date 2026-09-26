@@ -1,5 +1,35 @@
 #!/usr/bin/env python3
-"""Fit overall and fixed-support-tier HEEDB case-addition curves."""
+"""HEEDB log-linear curve fitting.
+
+Purpose
+-------
+Fit the final paper's AUROC response to logarithmic active-memory size.
+
+Method
+------
+Load per-class AUROCs at eight nested fractions, restrict to common labels,
+average overall and by fixed support tier, then fit ordinary least squares.
+
+Inputs
+------
+Scale-benchmark summary and per-class tables plus a full-memory support-tier
+manifest.
+
+Outputs
+-------
+External curve points, slope/CI/R-squared/p-value tables, and common-label
+records.
+
+Paper parameters
+----------------
+Uses eight memory states; slope confidence intervals come from the eight-point
+OLS fit, not the query bootstrap.
+
+Shapes and meaning
+------------------
+Predictor is ln(number of active cases); response is fixed-label macro AUROC.
+Tier curves average their own common labels.
+"""
 
 from __future__ import annotations
 

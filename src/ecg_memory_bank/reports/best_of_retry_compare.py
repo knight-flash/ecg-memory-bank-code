@@ -1,3 +1,36 @@
+"""Best-of report finalization.
+
+Purpose
+-------
+Choose the most complete original or retry record for every paired report
+case.
+
+Method
+------
+Score response completeness, merge original/sparse retry views, and recompute
+report-level classification metrics.
+
+Inputs
+------
+Original and retry directories containing parsed RAG/No-RAG records and
+candidate labels.
+
+Outputs
+-------
+External selection CSV, merged case records, per-case/per-label evaluation
+tables, and summary JSON.
+
+Paper parameters
+----------------
+Formal chain uses completeness-based original-first selection and keeps both
+modes over the same 2381 cases.
+
+Shapes and meaning
+------------------
+Selection is per case and mode; output label-score matrices remain [Q,C] for
+paired comparisons.
+"""
+
 from __future__ import annotations
 
 import argparse

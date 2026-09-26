@@ -1,6 +1,35 @@
-"""Protocol invariants shared by the paper entry points.
+"""Final-paper protocol invariants.
 
-These checks operate on IDs and small summaries before expensive model runs.
+Purpose
+-------
+Centralize the rules that distinguish the released experiments from historical
+exploratory runs.
+
+Method
+------
+Validate external output paths, strict row-to-ID alignment, nested memory
+membership, subject disjointness, withdrawal zero persistence, prototype
+anchors, and paired bootstrap inputs.
+
+Inputs
+------
+Case IDs, fraction-to-membership maps, labels, score arrays, and output paths
+supplied by experiment entries.
+
+Outputs
+-------
+Validation results, unweighted vote dictionaries, or explicit errors before an
+expensive run.
+
+Paper parameters
+----------------
+Broad addition fixes eight fractions, five anchors, K=10 and seed=42; Chagas
+stages and withdrawal fractions are recorded as constants.
+
+Shapes and meaning
+------------------
+Embeddings align [N,D] with N metadata rows; neighbors are [Q,K]; each
+unweighted label vote is a fraction in [0,1].
 """
 
 from __future__ import annotations

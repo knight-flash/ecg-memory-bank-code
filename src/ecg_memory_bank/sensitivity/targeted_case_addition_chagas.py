@@ -1,6 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""ECGFounder Chagas sensitivity.
+
+Purpose
+-------
+Repeat the CODE-15 Chagas addition experiment with ECGFounder embeddings.
+
+Method
+------
+Keep the record-level query split, positive additions, negative control, and
+retrieval vote definition aligned with the default-encoder run.
+
+Inputs
+------
+Alternate-encoder CODE-15 tensor and metadata with Chagas labels and record
+identifiers.
+
+Outputs
+-------
+External stage-wise binary AUROC and Recall@K summaries.
+
+Paper parameters
+----------------
+Uses 1000 positive and 4000 negative queries; 0 to 5000 positive additions;
+K=10, seed=42.
+
+Shapes and meaning
+------------------
+Input vectors are [N,D] and binary query outcomes [5000]; the score is a top-K
+positive-case frequency.
+"""
+
+
 from __future__ import annotations
 
 import argparse

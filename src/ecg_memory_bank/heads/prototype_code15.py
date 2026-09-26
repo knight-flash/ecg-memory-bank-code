@@ -1,17 +1,35 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Traditional ProtoPNet-style baseline for CODE-15.
+"""CODE-15 prototype base implementation.
 
-This is a standalone baseline adapted from the CODE-15 setup, using:
-- fixed per-class prototype allocation
-- centroid / KMeans initialization
-- periodic projection to nearest real positive samples
-- last-layer convex optimization
-- prototype mapping / activation report / t-SNE export
+Purpose
+-------
+Provide CODE-15 record-level data, label construction, prototype architecture,
+and training helpers.
 
-`1st degree atrioventricular block` is assigned more prototypes by default
-because it is treated as a harder class boundary.
+Method
+------
+Read binary/multilabel tensors, create seeded splits, initialize class-
+positive prototypes, project to real cases, and export activation reports.
+
+Inputs
+------
+CODE-15 ECG vectors, label tensor, metadata/exam IDs, and external output
+paths.
+
+Outputs
+-------
+External checkpoint files, prototype reports, and score/class metrics.
+
+Paper parameters
+----------------
+The formal wrapper supplies the paper's six-label task and budget; alternate
+base defaults are retained for helper reuse.
+
+Shapes and meaning
+------------------
+ECG inputs are [N,D], targets [N,6] in the paper multilabel task, prototypes
+[P,D], and output logits [N,6].
 """
 
 import argparse

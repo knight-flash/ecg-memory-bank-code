@@ -1,3 +1,36 @@
+"""ECG report request construction.
+
+Purpose
+-------
+Prepare paired RAG and No-RAG requests over the same ECG-Grounding query
+cohort.
+
+Method
+------
+Load subject-disjoint gallery vectors, retrieve Top-5 cases, build feature and
+label context, and serialize strict-JSON chat requests.
+
+Inputs
+------
+Query/gallery CSVs, frozen embeddings, feature payloads, taxonomy, prompt
+configuration, and run directory.
+
+Outputs
+-------
+External request JSONL, candidate-set context, retrieval rows, and preparation
+logs.
+
+Paper parameters
+----------------
+Formal runner fixes Q=2381, K=5, prompt v2, shared candidate set, and subject
+exclusion.
+
+Shapes and meaning
+------------------
+Query/gallery vectors are [Q,D]/[N,D], retrieved support is [Q,5], and each
+request expects C=102 label scores.
+"""
+
 from __future__ import annotations
 
 import argparse

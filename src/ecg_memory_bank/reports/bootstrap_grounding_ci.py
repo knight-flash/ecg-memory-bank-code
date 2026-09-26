@@ -1,3 +1,34 @@
+"""Case-level report confidence intervals.
+
+Purpose
+-------
+Estimate paired uncertainty for report AUROC and diagnostic-count comparisons.
+
+Method
+------
+Resample ECG cases with replacement, retain each case's paired modes, and take
+percentile intervals.
+
+Inputs
+------
+Final best-of evaluation/per_case.csv with RAG/No-RAG labels, scores, and case
+IDs.
+
+Outputs
+-------
+External JSON CI summary under the run's evaluation directory.
+
+Paper parameters
+----------------
+Default 1000 case-level resamples and seed=42; selected view identifies the
+best-of policy.
+
+Shapes and meaning
+------------------
+Each bootstrap samples query rows from Q cases; paired RAG-minus-No-RAG
+differences use the same sampled IDs.
+"""
+
 from __future__ import annotations
 
 import argparse

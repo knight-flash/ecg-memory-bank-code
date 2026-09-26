@@ -1,4 +1,34 @@
-"""HEEDB waveform preprocessing used for ECG–text pretraining."""
+"""HEEDB pretraining dataset.
+
+Purpose
+-------
+Read HEEDB ECG waveforms and paired reports for contrastive training.
+
+Method
+------
+Load MAT/HEA records, apply global z-score normalization, resample to 500 Hz,
+filter, then center-crop or pad to 5000 samples.
+
+Inputs
+------
+Indexed CSV with full_ecg_path and deid_t_diagnosis_original; waveform and
+header files at those paths.
+
+Outputs
+-------
+One mapping per index with ecg tensor and txt report; invalid records raise
+rather than silently substituting another case.
+
+Paper parameters
+----------------
+Uses 60 Hz notch and 0.5–50 Hz band-pass; lead order and 5000-sample window
+follow the historical training reader.
+
+Shapes and meaning
+------------------
+Each returned ECG has shape [12,5000] float32; txt is one report string for
+the same record.
+"""
 
 from __future__ import annotations
 

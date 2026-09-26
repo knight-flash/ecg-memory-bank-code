@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""Retrieval bootstrap utilities.
+
+Purpose
+-------
+Compute class, micro, macro, and mean confidence intervals from saved
+retrieval evaluation inputs.
+
+Method
+------
+Reuse paired bootstrap index matrices and skip invalid class resamples that
+lack both outcome classes.
+
+Inputs
+------
+Per-query labels/scores, retrieval metric arrays, and evaluation manifest
+paths.
+
+Outputs
+-------
+Per-class and aggregate percentile CI artifacts under caller-selected output
+directories.
+
+Paper parameters
+----------------
+Default paper bootstrap is 1000 resamples with seed=42; worker count changes
+speed only.
+
+Shapes and meaning
+------------------
+Binary labels and scores align as [Q,C]; query-level metric vectors have
+length Q.
+"""
+
+
 from __future__ import annotations
 
 import argparse

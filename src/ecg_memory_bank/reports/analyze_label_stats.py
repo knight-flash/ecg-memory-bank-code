@@ -1,3 +1,34 @@
+"""Report false-positive characterization.
+
+Purpose
+-------
+Describe diagnosis quantity and retrieved-label overlap in finalized RAG and
+No-RAG outputs.
+
+Method
+------
+Count predicted/true/false-positive labels per case and compare RAG false
+positives with labels present in retrieved cases.
+
+Inputs
+------
+Final evaluation rows, candidate taxonomy and Top-5 retrieval labels.
+
+Outputs
+-------
+External summary JSON/CSV and per-category false-positive overlap tables.
+
+Paper parameters
+----------------
+Uses the fixed 2381-case cohort and existing predictions; overlap is
+descriptive, not proof of retrieval causation.
+
+Shapes and meaning
+------------------
+Rows are individual reports; a retrieved-label overlap is co-occurrence with
+one of up to five support cases.
+"""
+
 from __future__ import annotations
 
 import argparse

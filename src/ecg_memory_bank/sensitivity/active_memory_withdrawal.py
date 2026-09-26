@@ -1,6 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""ECGFounder withdrawal sensitivity.
+
+Purpose
+-------
+Repeat active-memory withdrawal under ECGFounder embeddings to test
+representation dependence.
+
+Method
+------
+Reuse the patient/year removal and rebuilt-index evaluation while replacing
+only the frozen embedding source.
+
+Inputs
+------
+Alternate-encoder HEEDB train/validation/test tensors, aligned IDs and
+metadata, and label mapping.
+
+Outputs
+-------
+External withdrawal scenario summaries comparable by protocol with the default
+encoder.
+
+Paper parameters
+----------------
+Fixed 2022 query years, 15/30/60/90% patient fractions, 2010/2015/2018
+historical thresholds, K=10, seed=42.
+
+Shapes and meaning
+------------------
+Vectors remain [N,D]; per-query voting scores are [Q,C]. Differences across
+encoders are descriptive sensitivity results.
+"""
+
+
 from __future__ import annotations
 
 import argparse
