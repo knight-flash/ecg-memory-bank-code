@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "grounding_json": "/path/to/ecg_grounding_2381.json",
+    "mimic_embeddings": "/path/to/mimic_embeddings.pt",
+    "mimic_metadata": "/path/to/mimic_metadata.csv",
+    "mimic_feature_root": "/path/to/mimic_features",
+    "classification_xlsx": "/path/to/label_classification.xlsx"
+  }
+}

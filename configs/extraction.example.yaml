@@ -1,0 +1,11 @@
+network:
+  model_name: ECGCLIP
+  ckpt_path: /path/to/ecgfounder_medcpt_retrieval_F_10000_total.pth
+  ecg_model: ecgfounder
+  num_leads: 12
+  text_model: medcpt
+  free_layers: 6
+  feature_dim: 768
+  projection_head:
+    mlp_hidden_size: 256
+    projection_size: 256

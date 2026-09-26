@@ -1,0 +1,121 @@
+canonical_label,alias,prompt,group,enabled
+"left axis deviation","left axis deviation","An ECG recording showing left axis deviation.","Axis",true
+"rightward axis","rightward axis","An ECG recording showing rightward axis.","Axis",true
+"right superior axis deviation","right superior axis deviation","An ECG recording showing right superior axis deviation.","Axis",true
+"right axis deviation","right axis deviation","An ECG recording showing right axis deviation.","Axis",true
+"with 1st degree av block","with 1st degree av block","An ECG recording showing with 1st degree av block.","Conduction",true
+"right bundle branch block","right bundle branch block","An ECG recording showing right bundle branch block.","Conduction",true
+"nonspecific intraventricular block","nonspecific intraventricular block","An ECG recording showing nonspecific intraventricular block.","Conduction",true
+"incomplete right bundle branch block","incomplete right bundle branch block","An ECG recording showing incomplete right bundle branch block.","Conduction",true
+"left anterior fascicular block","left anterior fascicular block","An ECG recording showing left anterior fascicular block.","Conduction",true
+"left bundle branch block","left bundle branch block","An ECG recording showing left bundle branch block.","Conduction",true
+"with short pr","with short pr","An ECG recording showing with short pr.","Conduction",true
+"bifascicular block","*** bifascicular block ***","An ECG recording showing bifascicular block.","Conduction",true
+"with variable av block","with variable av block","An ECG recording showing with variable av block.","Conduction",true
+"with qrs widening and repolarization abnormality","with qrs widening and repolarization abnormality","An ECG recording showing with qrs widening and repolarization abnormality.","Conduction",true
+"nonspecific intraventricular conduction delay","nonspecific intraventricular conduction delay","An ECG recording showing nonspecific intraventricular conduction delay.","Conduction",true
+"rsr' or qr pattern in v1 suggests right ventricular conduction delay","rsr' or qr pattern in v1 suggests right ventricular conduction delay","An ECG recording showing rsr' or qr pattern in v1 suggests right ventricular conduction delay.","Conduction",true
+"incomplete left bundle branch block","incomplete left bundle branch block","An ECG recording showing incomplete left bundle branch block.","Conduction",true
+"with qrs widening","with qrs widening","An ECG recording showing with qrs widening.","Conduction",true
+"left posterior fascicular block","left posterior fascicular block","An ECG recording showing left posterior fascicular block.","Conduction",true
+"with prolonged av conduction","with prolonged av conduction","An ECG recording showing with prolonged av conduction.","Conduction",true
+"with 2:1 av conduction","with 2:1 av conduction","An ECG recording showing with 2:1 av conduction.","Conduction",true
+"with retrograde conduction","with retrograde conduction","An ECG recording showing with retrograde conduction.","Conduction",true
+"with av dissociation","with av dissociation","An ECG recording showing with av dissociation.","Conduction",true
+"with complete heart block","with complete heart block","An ECG recording showing with complete heart block.","Conduction",true
+"wolff-parkinson-white","wolff-parkinson-white","An ECG recording showing wolff-parkinson-white.","Conduction",true
+"abnormal ecg","abnormal ecg","An ECG recording showing abnormal ecg.","General report",true
+"normal ecg","normal ecg","An ECG recording showing normal ecg.","General report",true
+"otherwise normal ecg","otherwise normal ecg","An ECG recording showing otherwise normal ecg.","General report",true
+"borderline ecg","borderline ecg","An ECG recording showing borderline ecg.","General report",true
+"pediatric ecg analysis","** * pediatric ecg analysis * **","An ECG recording showing pediatric ecg analysis.","General report",true
+"left ventricular hypertrophy","left ventricular hypertrophy","An ECG recording showing left ventricular hypertrophy.","Hypertrophy",true
+"left atrial enlargement","left atrial enlargement","An ECG recording showing left atrial enlargement.","Hypertrophy",true
+"right ventricular hypertrophy","right ventricular hypertrophy","An ECG recording showing right ventricular hypertrophy.","Hypertrophy",true
+"right atrial enlargement","right atrial enlargement","An ECG recording showing right atrial enlargement.","Hypertrophy",true
+"biventricular hypertrophy","biventricular hypertrophy","An ECG recording showing biventricular hypertrophy.","Hypertrophy",true
+"biatrial enlargement","biatrial enlargement","An ECG recording showing biatrial enlargement.","Hypertrophy",true
+"voltage criteria for left ventricular hypertrophy","voltage criteria for left ventricular hypertrophy","An ECG recording showing voltage criteria for left ventricular hypertrophy.","Hypertrophy",true
+"inferior infarct","inferior infarct","An ECG recording showing inferior infarct.","Ischemia events",true
+"anterior infarct","anterior infarct","An ECG recording showing anterior infarct.","Ischemia events",true
+"septal infarct","septal infarct","An ECG recording showing septal infarct.","Ischemia events",true
+"anteroseptal infarct","anteroseptal infarct","An ECG recording showing anteroseptal infarct.","Ischemia events",true
+"lateral infarct","lateral infarct","An ECG recording showing lateral infarct.","Ischemia events",true
+"acute mi / stemi","** ** acute mi / stemi ** **","An ECG recording showing acute mi / stemi.","Ischemia events",true
+"anterolateral infarct","anterolateral infarct","An ECG recording showing anterolateral infarct.","Ischemia events",true
+"consider anterior infarct","; consider anterior infarct","An ECG recording showing consider anterior infarct.","Ischemia events",true
+"consider septal infarct","; consider septal infarct","An ECG recording showing consider septal infarct.","Ischemia events",true
+"consider right ventricular involvement in acute inferior infarct","consider right ventricular involvement in acute inferior infarct","An ECG recording showing consider right ventricular involvement in acute inferior infarct.","Ischemia events",true
+"st elevation, consider inferior injury or acute infarct","st elevation, consider inferior injury or acute infarct","An ECG recording showing st elevation, consider inferior injury or acute infarct.","Ischemia events",true
+"st elevation, consider lateral injury or acute infarct","st elevation, consider lateral injury or acute infarct","An ECG recording showing st elevation, consider lateral injury or acute infarct.","Ischemia events",true
+"inferior-posterior infarct","inferior-posterior infarct","An ECG recording showing inferior-posterior infarct.","Ischemia events",true
+"lateral injury pattern","lateral injury pattern","An ECG recording showing lateral injury pattern.","Ischemia events",true
+"st elevation, consider anterior injury or acute infarct","st elevation, consider anterior injury or acute infarct","An ECG recording showing st elevation, consider anterior injury or acute infarct.","Ischemia events",true
+"inferior injury pattern","inferior injury pattern","An ECG recording showing inferior injury pattern.","Ischemia events",true
+"st elevation, consider inferolateral injury or acute infarct","st elevation, consider inferolateral injury or acute infarct","An ECG recording showing st elevation, consider inferolateral injury or acute infarct.","Ischemia events",true
+"acute pericarditis","acute pericarditis","An ECG recording showing acute pericarditis.","Ischemia events",true
+"consider anteroseptal infarct","; consider anteroseptal infarct","An ECG recording showing consider anteroseptal infarct.","Ischemia events",true
+"st elevation, consider anterolateral injury or acute infarct","st elevation, consider anterolateral injury or acute infarct","An ECG recording showing st elevation, consider anterolateral injury or acute infarct.","Ischemia events",true
+"posterior infarct","posterior infarct","An ECG recording showing posterior infarct.","Ischemia events",true
+"anterior injury pattern","anterior injury pattern","An ECG recording showing anterior injury pattern.","Ischemia events",true
+"inferolateral injury pattern","inferolateral injury pattern","An ECG recording showing inferolateral injury pattern.","Ischemia events",true
+"anterolateral injury pattern","anterolateral injury pattern","An ECG recording showing anterolateral injury pattern.","Ischemia events",true
+"anterolateral leads","anterolateral leads","An ECG recording showing anterolateral leads.","Ischemia events",true
+"low voltage qrs","low voltage qrs","An ECG recording showing low voltage qrs.","Others",true
+"pulmonary disease pattern","pulmonary disease pattern","An ECG recording showing pulmonary disease pattern.","Others",true
+"r in avl","r in avl","An ECG recording showing r in avl.","Others",true
+"prolonged qt","prolonged qt","An ECG recording showing prolonged qt.","Others",true
+"ventricular-paced rhythm","ventricular-paced rhythm","An ECG recording showing ventricular-paced rhythm.","Pacemaker",true
+"ventricular-paced complexes","ventricular-paced complexes","An ECG recording showing ventricular-paced complexes.","Pacemaker",true
+"atrial-paced rhythm","atrial-paced rhythm","An ECG recording showing atrial-paced rhythm.","Pacemaker",true
+"atrial-sensed ventricular-paced rhythm","atrial-sensed ventricular-paced rhythm","An ECG recording showing atrial-sensed ventricular-paced rhythm.","Pacemaker",true
+"av dual-paced rhythm","av dual-paced rhythm","An ECG recording showing av dual-paced rhythm.","Pacemaker",true
+"av dual-paced complexes","av dual-paced complexes","An ECG recording showing av dual-paced complexes.","Pacemaker",true
+"biventricular pacemaker detected","biventricular pacemaker detected","An ECG recording showing biventricular pacemaker detected.","Pacemaker",true
+"normal sinus rhythm","normal sinus rhythm","An ECG recording showing normal sinus rhythm.","Rhythm",true
+"sinus rhythm","sinus rhythm","An ECG recording showing sinus rhythm.","Rhythm",true
+"fusion complexes","fusion complexes","An ECG recording showing fusion complexes.","Rhythm",true
+"sinus bradycardia","sinus bradycardia","An ECG recording showing sinus bradycardia.","Rhythm",true
+"premature ventricular complexes","premature ventricular complexes","An ECG recording showing premature ventricular complexes.","Rhythm",true
+"sinus tachycardia","sinus tachycardia","An ECG recording showing sinus tachycardia.","Rhythm",true
+"atrial fibrillation","atrial fibrillation","An ECG recording showing atrial fibrillation.","Rhythm",true
+"undetermined rhythm","undetermined rhythm","An ECG recording showing undetermined rhythm.","Rhythm",true
+"junctional rhythm","junctional rhythm","An ECG recording showing junctional rhythm.","Rhythm",true
+"with sinus arrhythmia","with sinus arrhythmia","An ECG recording showing with sinus arrhythmia.","Rhythm",true
+"premature atrial complexes","premature atrial complexes","An ECG recording showing premature atrial complexes.","Rhythm",true
+"with rapid ventricular response","with rapid ventricular response","An ECG recording showing with rapid ventricular response.","Rhythm",true
+"with premature ventricular or aberrantly conducted complexes","with premature ventricular or aberrantly conducted complexes","An ECG recording showing with premature ventricular or aberrantly conducted complexes.","Rhythm",true
+"premature supraventricular complexes","premature supraventricular complexes","An ECG recording showing premature supraventricular complexes.","Rhythm",true
+"wide qrs rhythm","wide qrs rhythm","An ECG recording showing wide qrs rhythm.","Rhythm",true
+"atrial flutter","atrial flutter","An ECG recording showing atrial flutter.","Rhythm",true
+"with marked sinus arrhythmia","with marked sinus arrhythmia","An ECG recording showing with marked sinus arrhythmia.","Rhythm",true
+"with slow ventricular response","with slow ventricular response","An ECG recording showing with slow ventricular response.","Rhythm",true
+"marked sinus bradycardia","marked sinus bradycardia","An ECG recording showing marked sinus bradycardia.","Rhythm",true
+"with ventricular escape complexes","with ventricular escape complexes","An ECG recording showing with ventricular escape complexes.","Rhythm",true
+"with a competing junctional pacemaker","with a competing junctional pacemaker","An ECG recording showing with a competing junctional pacemaker.","Rhythm",true
+"aberrant conduction","aberrant conduction","An ECG recording showing aberrant conduction.","Rhythm",true
+"in a pattern of bigeminy","in a pattern of bigeminy","An ECG recording showing in a pattern of bigeminy.","Rhythm",true
+"supraventricular tachycardia","supraventricular tachycardia","An ECG recording showing supraventricular tachycardia.","Rhythm",true
+"blocked","blocked","An ECG recording showing blocked.","Rhythm",true
+"wide qrs tachycardia","wide qrs tachycardia","An ECG recording showing wide qrs tachycardia.","Rhythm",true
+"with junctional escape complexes","with junctional escape complexes","An ECG recording showing with junctional escape complexes.","Rhythm",true
+"junctional bradycardia","junctional bradycardia","An ECG recording showing junctional bradycardia.","Rhythm",true
+"supraventricular complexes","supraventricular complexes","An ECG recording showing supraventricular complexes.","Rhythm",true
+"with undetermined rhythm irregularity","with undetermined rhythm irregularity","An ECG recording showing with undetermined rhythm irregularity.","Rhythm",true
+"idioventricular rhythm","idioventricular rhythm","An ECG recording showing idioventricular rhythm.","Rhythm",true
+"sinus/atrial capture","sinus/atrial capture","An ECG recording showing sinus/atrial capture.","Rhythm",true
+"nonspecific t wave abnormality","nonspecific t wave abnormality","An ECG recording showing nonspecific t wave abnormality.","ST-T changes",true
+"nonspecific st and t wave abnormality","nonspecific st and t wave abnormality","An ECG recording showing nonspecific st and t wave abnormality.","ST-T changes",true
+"t wave abnormality, consider lateral ischemia","t wave abnormality, consider lateral ischemia","An ECG recording showing t wave abnormality, consider lateral ischemia.","ST-T changes",true
+"t wave abnormality, consider inferior ischemia","t wave abnormality, consider inferior ischemia","An ECG recording showing t wave abnormality, consider inferior ischemia.","ST-T changes",true
+"nonspecific st abnormality","nonspecific st abnormality","An ECG recording showing nonspecific st abnormality.","ST-T changes",true
+"with repolarization abnormality","with repolarization abnormality","An ECG recording showing with repolarization abnormality.","ST-T changes",true
+"t wave abnormality, consider anterior ischemia","t wave abnormality, consider anterior ischemia","An ECG recording showing t wave abnormality, consider anterior ischemia.","ST-T changes",true
+"t wave abnormality, consider anterolateral ischemia","t wave abnormality, consider anterolateral ischemia","An ECG recording showing t wave abnormality, consider anterolateral ischemia.","ST-T changes",true
+"t wave abnormality, consider inferolateral ischemia","t wave abnormality, consider inferolateral ischemia","An ECG recording showing t wave abnormality, consider inferolateral ischemia.","ST-T changes",true
+"early repolarization","early repolarization","An ECG recording showing early repolarization.","ST-T changes",true
+"marked t wave abnormality, consider anterolateral ischemia","marked t wave abnormality, consider anterolateral ischemia","An ECG recording showing marked t wave abnormality, consider anterolateral ischemia.","ST-T changes",true
+"marked t wave abnormality, consider lateral ischemia","marked t wave abnormality, consider lateral ischemia","An ECG recording showing marked t wave abnormality, consider lateral ischemia.","ST-T changes",true
+"marked t wave abnormality, consider inferolateral ischemia","marked t wave abnormality, consider inferolateral ischemia","An ECG recording showing marked t wave abnormality, consider inferolateral ischemia.","ST-T changes",true
+"marked t wave abnormality, consider inferior ischemia","marked t wave abnormality, consider inferior ischemia","An ECG recording showing marked t wave abnormality, consider inferior ischemia.","ST-T changes",true
+"marked t wave abnormality, consider anterior ischemia","marked t wave abnormality, consider anterior ischemia","An ECG recording showing marked t wave abnormality, consider anterior ischemia.","ST-T changes",true

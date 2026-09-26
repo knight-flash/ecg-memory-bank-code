@@ -1,0 +1,24 @@
+{
+  "args": {
+    "data-ecg-path": "/path/to/heedb_train_embeddings.pt",
+    "data-meta-path": "/path/to/heedb_train_metadata.csv",
+    "heedb-train-export-meta-path": "/path/to/heedb_train_case_ids.csv",
+    "val-ecg-path": "/path/to/heedb_val_embeddings.pt",
+    "val-meta-path": "/path/to/heedb_val_metadata.csv",
+    "test-robust-ecg-path": "/path/to/heedb_test_embeddings.pt",
+    "test-robust-meta-path": "/path/to/heedb_test_metadata.csv",
+    "heedb-test-export-meta-path": "/path/to/heedb_test_case_ids.csv",
+    "mimic-ecg-path": "/path/to/mimic_embeddings.pt",
+    "mimic-meta-path": "/path/to/mimic_metadata.csv"
+  },
+  "input_files": [
+    "/path/to/heedb_train_embeddings.pt",
+    "/path/to/heedb_train_metadata.csv",
+    "/path/to/heedb_val_embeddings.pt",
+    "/path/to/heedb_val_metadata.csv",
+    "/path/to/heedb_test_embeddings.pt",
+    "/path/to/heedb_test_metadata.csv",
+    "/path/to/mimic_embeddings.pt",
+    "/path/to/mimic_metadata.csv"
+  ]
+}

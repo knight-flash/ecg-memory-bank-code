@@ -1,0 +1,8 @@
+{
+  "bestof_dir": "/path/to/final_bestof_reports",
+  "retry_dir": "/path/to/retried_reports",
+  "run_dir": "/path/to/original_reports",
+  "groundtruth_jsonl": "/path/to/ecg_grounding_truth.jsonl",
+  "endpoint_model": "deepseek-v3.1",
+  "base_url": "https://operator.las.cn-beijing.volces.com/api/v1"
+}

@@ -1,0 +1,9 @@
+{
+  "args": {
+    "heedb-train-ecg-path": "/path/to/heedb_train_embeddings.pt",
+    "heedb-train-meta-path": "/path/to/heedb_train_metadata.csv",
+    "heedb-test-ecg-path": "/path/to/heedb_test_embeddings.pt",
+    "heedb-test-meta-path": "/path/to/heedb_test_metadata.csv",
+    "record-id-col": "HashFileName"
+  }
+}
